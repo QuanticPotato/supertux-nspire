@@ -26,6 +26,7 @@ include :
    - Adapt the game (e.g. the game and the menus) to fit the small screen of
      the calculator (that has a resolution of 240x320 pixels).
 
+To build and launch the game, refer to the file INSTALL.
 
 STORY
 =====
