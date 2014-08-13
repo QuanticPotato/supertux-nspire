@@ -1,32 +1,40 @@
 REQUIREMENTS
 ============
 
- - A functional native toolchain (i.e. that target the build machine).
- - A functional ARM toolchain able to compile C++ code for the TI-nspire.
- - A third-party TI-nspire jailbreaker to execute native code on the calculator.
- - A TI-nspire emulator OR a third-party program able to send files to the calculator.
+ * A functional native toolchain (i.e. that target the build machine).  
+ * A functional ARM toolchain able to compile C++ code for the TI-nspire.  
+ * A third-party TI-nspire jailbreaker to execute native code on the  
+   calculator.
+ * A TI-nspire emulator OR a third-party program able to send files to the  
+   calculator.  
 
-We strongly recommend to use the NdLess jailbreaker, and its SDK that provide a complete ARM toolchain and some extra librairies.
-To get more informations about NdLess, refer to the website http://ndless.me/ 
-To send files to the TI-nspire, we recommend to use TiLP (works on several platforms : UNIX, Windows, Macintosh).
-To get more informations about TiLP, refer to the website http://lpg.ticalc.org/prj_tilp/
+We strongly recommend to use the NdLess jailbreaker, and its SDK that provide  
+a complete ARM toolchain and some extra librairies. To get more informations  
+about NdLess, refer to the [NdLess website](http://ndless.me/)  
 
-Assure that the ARM toolchain is in your $PATH variable.
+To send files to the TI-nspire, we recommend to use TiLP (works on several   
+platforms : UNIX, Windows, Macintosh). To get more informations about TiLP,  
+refer to the [project website](http://lpg.ticalc.org/prj_tilp/)  
+
+Assure that the ARM toolchain is in your $PATH variable.  
 
 BUILDING
 ========
 
-To build the game, simply launch those commands :
+To build the game, simply launch those commands :  
 
-   ./configure
-   make
+`
+   ./configure  
+   make  
+`
 
-You can pass extra parameters to the configure script, to define a special compilation behavior.
-Currently, the following parameters are available :
- *There is currently no parameters*
+You can pass extra parameters to the configure script, to define a special  
+compilation behavior. Currently, the following parameters are available :  
+ *There is currently no parameters*  
 
 LAUNCHING THE GAME
 ==================
 
-The build step produce a supertux.tns file. 
-You can either transfer this file to your TI-nspire calculator (e.g. using TiLP), or run it in an emulator.
+The build step produce a supertux.tns file.  
+You can either transfer this file to your TI-nspire calculator (e.g. using  
+TiLP), or run it in an emulator.  
