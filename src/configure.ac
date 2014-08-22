@@ -15,25 +15,26 @@ AC_COPYRIGHT([This project comes from the original game SuperTux.  To get more i
 		The original author of this adaptation is 
 			CHAUVIN Barnabé	(barnabe.chauvin@gmail.com)])
 
-AC_CONFIG_SRCDIR([INSTALL])
+AC_CONFIG_SRCDIR([main.cpp]) 
 
 AM_INIT_AUTOMAKE
+
+AC_CONFIG_FILES([Makefile])
 
 dnl ========== Check for programs ============================================
 
 AC_PROG_CC
 AC_PROG_CXX
-AC_PROG_LN_S
 
 dnl  Check for the nspire C compiler
 
 AC_MSG_CHECKING([--with-nspire-cc argument])
 AC_ARG_WITH([nspire-cc], 
 	[  --with-nspire-cc=PATH     which nspire C compiler to use (default : nspire-gcc)],
-	[NSPIRE_CC="$withval" ; AC_MSG_RESULT($NSPIRE_CC)],
-	[NSPIRE_CC="nspire-gcc" ; AC_MSG_RESULT([no  (default is $NSPIRE_CC)])])
+	[CC="$withval" ; AC_MSG_RESULT($CC)],
+	[CC="nspire-gcc" ; AC_MSG_RESULT([no  (default is $CC)])])
 
-AC_CHECK_PROG(has_nspire_cc, "$NSPIRE_CC", "yes", "no")
+AC_CHECK_PROG(has_nspire_cc, "$CC", "yes", "no")
 if test "$has_nspire_cc" = no ; then
 	AC_MSG_ERROR([ no nspire C compiler found !
 		(You can specify one with the --with-nspire-cc argument)])
@@ -44,11 +45,11 @@ dnl  Check for the nspire C++ compiler
 AC_MSG_CHECKING([--with-nspire-cxx argument])
 AC_ARG_WITH([nspire-cxx], 
 	[  --with-nspire-cxx=PATH     which nspire C++ compiler to use (default : nspire-g++)],
-	[NSPIRE_CXX="$withval" ; AC_MSG_RESULT($NSPIRE_CXX)],
-	[NSPIRE_CXX="nspire-g++" ; AC_MSG_RESULT([no  (default is $NSPIRE_CXX)])])
+	[CXX="$withval" ; AC_MSG_RESULT($CXX)],
+	[CXX="nspire-g++" ; AC_MSG_RESULT([no  (default is $CXX)])])
 
 
-AC_CHECK_PROG(has_nspire_cxx, "$NSPIRE_CXX", "yes", "no")
+AC_CHECK_PROG(has_nspire_cxx, "$CXX", "yes", "no")
 if test  "$has_nspire_cxx" = no ; then
 	AC_MSG_ERROR([ no nspire C++ compiler found !
 		(You can specify one with the --with-nspire-cxx argument)])
