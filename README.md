@@ -26,7 +26,7 @@ include :
    * Redo the architecutre specific stuff (i.e. make everything compatible for  
      the ARM (the TI-nspire processor architecture).  
    * Adapt the game (e.g. the game and the menus) to fit the small screen of  
-     the calculator (that has a resolution of 240x320 pixels).  
+     the calculator (that has a resolution of 320x240 pixels).  
 
 To build and launch the game, refer to the file INSTALL.  
 
