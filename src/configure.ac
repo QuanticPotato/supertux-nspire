@@ -23,10 +23,13 @@ AC_CONFIG_FILES([Makefile])
 
 dnl ========== Check for programs ============================================
 
-AC_PROG_CC
-AC_PROG_CXX
+dnl  The ndless SDK use a different program as linker, so we have to disable 
+dnl  the linker test step.
 
-dnl  Check for the nspire C compiler
+AC_NO_EXECUTABLES
+
+
+#  Check for the nspire C compiler
 
 AC_MSG_CHECKING([--with-nspire-cc argument])
 AC_ARG_WITH([nspire-cc], 
@@ -40,7 +43,10 @@ if test "$has_nspire_cc" = no ; then
 		(You can specify one with the --with-nspire-cc argument)])
 fi
 
-dnl  Check for the nspire C++ compiler
+AC_PROG_CC
+
+
+#  Check for the nspire C++ compiler
 
 AC_MSG_CHECKING([--with-nspire-cxx argument])
 AC_ARG_WITH([nspire-cxx], 
@@ -55,7 +61,10 @@ if test  "$has_nspire_cxx" = no ; then
 		(You can specify one with the --with-nspire-cxx argument)])
 fi
 
-dnl Check for the nspire linker
+AC_PROG_CXX
+
+
+# Check for the nspire linker
 
 AC_MSG_CHECKING([--with-nspire-linker argument])
 AC_ARG_WITH([nspire-linker], 
@@ -69,6 +78,7 @@ if test "$has_nspire_ld" = no ; then
 		(You can specify one with the --with-nspire-ld argument)])
 fi
 
+AC_SUBST([NSPIRE_LD], $NSPIRE_LD)
 
 AC_OUTPUT
 
