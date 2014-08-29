@@ -2,7 +2,7 @@
 //  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
 //
 //  Adaptation for the TI nspire calculator by
-//  	CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
+//      CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -15,7 +15,8 @@
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef SUPERTUX_SETUP_H
 #define SUPERTUX_SETUP_H
@@ -46,11 +47,12 @@
 #define SUPERTUX_DIRECTORY "supertux"
 
 int faccessible(const char *filename);
-int fcreatedir(const char* relative_dir);
+int fcreatedir(const char *relative_dir);
 int fwriteable(const char *filename);
-FILE * opendata(const char * filename, const char * mode);
-string_list_type dsubdirs(const char *rel_path, const char* expected_file);
-string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);
+FILE *opendata(const char *filename, const char *mode);
+string_list_type dsubdirs(const char *rel_path, const char *expected_file);
+string_list_type dfiles(const char *rel_path, const char *glob,
+                        const char *exception_str);
 void free_strings(char **strings, int num);
 void st_directory_setup(void);
 void st_general_setup(void);
@@ -59,14 +61,14 @@ void st_video_setup_sdl(void);
 void st_video_setup(void);
 void st_shutdown(void);
 void st_menu(void);
-void st_abort(const std::string& reason, const std::string& details);
+void st_abort(const std::string &reason, const std::string &details);
 void process_options_menu(void);
 
 /** Return true if the gameloop() was entered, false otherwise */
 bool process_load_game_menu();
 
-void update_load_save_game_menu(Menu* pmenu);
-void parseargs(int argc, char * argv[]);
+void update_load_save_game_menu(Menu *pmenu);
+void parseargs(int argc, char *argv[]);
 
 #endif /*SUPERTUX_SETUP_H*/
 
