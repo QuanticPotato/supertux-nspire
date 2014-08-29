@@ -20,8 +20,30 @@
 #ifndef SUPERTUX_SETUP_H
 #define SUPERTUX_SETUP_H
 
+#include <assert.h>
+#include <stdio.h>
+#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+#include <SDL.h>
+#include <SDL_image.h>
+
+#include <sys/types.h>
+#include <dirent.h>
+#include <libgen.h>
+#include <ctype.h>
+
+/* os.h include sys/stat.h */
+#include <os.h>
+#include <libndls.h>
+
 #include "menu.h"
 #include "type.h"
+
+#define SUPERTUX_DIRECTORY "supertux"
 
 int faccessible(const char *filename);
 int fcreatedir(const char* relative_dir);

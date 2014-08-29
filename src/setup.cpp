@@ -17,25 +17,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <assert.h>
-#include <stdio.h>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
-
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <libgen.h>
-#include <ctype.h>
-
-// ndless toolchain
-#include <libndls.h>
+#include "setup.h"
 
 #include "defines.h"
 #include "globals.h"
@@ -270,23 +252,11 @@ void free_strings(char **strings, int num)
 /* Set SuperTux configuration and save directories */
 void st_directory_setup(void)
 {
-	// For now, use the current directory
-	char *home = ".";
 	char str[1024];
-	if (getenv("HOME") != NULL)
-		home = getenv("HOME");
-	else
-		home = ".";
 
-	st_dir = (char *) malloc(sizeof(char) * (strlen(home) + 
-		strlen("/.supertux") + 1));
-	strcpy(st_dir, home);
-	strcat(st_dir, "/.supertux");
-
-	/* Remove .supertux config-file from old SuperTux versions */
-	if(faccessible(st_dir)) {
-		remove(st_dir);
-	}
+	/* For now, use the current directory (i.e. ".") */
+	st_dir = (char *) malloc(sizeof(char) * (strlen(SUPERTUX_DIRECTORY + 1)));
+	strcpy(st_dir, SUPERTUX_DIRECTORY);
 
 	st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
 
@@ -302,25 +272,8 @@ void st_directory_setup(void)
 
 	// User has not that a datadir, so we try some magic
 	if (datadir.empty()) {
-		// Detect datadir
-		char exe_file[PATH_MAX];
-		if (readlink("/proc/self/exe", exe_file, PATH_MAX) < 0) {
-			puts("Couldn't read /proc/self/exe, using default path: " DATA_PREFIX);
-			datadir = DATA_PREFIX;
-		} else {
-			std::string exedir = std::string(dirname(exe_file)) + "/";
-			
-			datadir = exedir + "../data"; // SuperTux run from source dir
-			if (access(datadir.c_str(), F_OK) != 0)
-			{
-				datadir = exedir + "../share/supertux"; // SuperTux run from PATH
-				if (access(datadir.c_str(), F_OK) != 0)  { // If all fails, fall back to compiled path
-					datadir = DATA_PREFIX; 
-				}
-			}
-		}
+		datadir = "data";
 	}
-	printf("Datadir: %s\n", datadir.c_str());
 }
 
 /* Create and setup menus. */
@@ -328,7 +281,7 @@ void st_menu(void)
 {
 	main_menu			= new Menu();
 	options_menu	 = new Menu();
-	options_keys_menu		 = new Menu();
+  options_keys_menu		 = new Menu();
 	options_joystick_menu = new Menu();
 	load_game_menu = new Menu();
 	save_game_menu = new Menu();
