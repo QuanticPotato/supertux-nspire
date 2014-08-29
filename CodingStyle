@@ -1,6 +1,6 @@
-The following file is extracted from the linux kernel documentation. I'm using
-this CodingStyle, because I guess a lot of open-source projects use a similar
-one, and I think it makes the code realy clear and concise.
+The following file is strongly inspired from the linux kernel documentation. 
+I'm using this CodingStyle, because I guess a lot of open-source projects use
+a similar one, and I think it makes the code realy clear and concise.
 It is also fully compliant with the VIM features (Join the good side of the 
 force, and forget other editors :D).
 Although the original Supertux codebase use a different coding-style, I have 
@@ -37,25 +37,23 @@ In short, 8-char indents make things easier to read, and have the added
 benefit of warning you when you're nesting your functions too deep.
 Heed that warning.
 
-The preferred way to ease multiple indentation levels in a switch statement is
-to align the "switch" and its subordinate "case" labels in the same column
-instead of "double-indenting" the "case" labels.  E.g.:
+Try to indent cases in a switch, unless your cases content are really long.
 
 	switch (suffix) {
-	case 'G':
-	case 'g':
-		mem <<= 30;
-		break;
-	case 'M':
-	case 'm':
-		mem <<= 20;
-		break;
-	case 'K':
-	case 'k':
-		mem <<= 10;
-		/* fall through */
-	default:
-		break;
+		case 'G':
+		case 'g':
+			mem <<= 30;
+			break;
+		case 'M':
+		case 'm':
+			mem <<= 20;
+			break;
+		case 'K':
+		case 'k':
+			mem <<= 10;
+			/* fall through */
+		default:
+			break;
 	}
 
 
@@ -65,13 +63,13 @@ something to hide:
 	if (condition) do_this;
 	  do_something_everytime;
 
-Don't put multiple assignments on a single line either.  Kernel coding style
-is super simple.  Avoid tricky expressions.
+Outside of comments or documentation, spaces are never used for indentation, 
+and the above example is deliberately broken.
 
-Outside of comments, documentation and except in Kconfig, spaces are never
-used for indentation, and the above example is deliberately broken.
+Get a decent editor and don't leave whitespace at the end of lines, unless it
+is Markdown syntax (e.g. : README.md).
 
-Get a decent editor and don't leave whitespace at the end of lines.
+Blank lines should not contains any spaces/tabulations.
 
 
 		Chapter 2: Breaking long lines and strings
@@ -106,14 +104,14 @@ This applies to all non-function statement blocks (if, switch, for,
 while, do).  E.g.:
 
 	switch (action) {
-	case KOBJ_ADD:
-		return "add";
-	case KOBJ_REMOVE:
-		return "remove";
-	case KOBJ_CHANGE:
-		return "change";
-	default:
-		return NULL;
+		case KOBJ_ADD:
+			return "add";
+		case KOBJ_REMOVE:
+			return "remove";
+		case KOBJ_CHANGE:
+			return "change";
+		default:
+			return NULL;
 	}
 
 However, there is one special case, namely functions: they have the
@@ -160,32 +158,14 @@ Do not unnecessarily use braces where a single statement will do.
 
 if (condition)
 	action();
-
-and
-
-if (condition)
-	do_this();
 else
 	do_that();
 
-This does not apply if only one branch of a conditional statement is a single
-statement; in the latter case use braces in both branches:
-
-if (condition) {
-	do_this();
-	do_that();
-} else {
-	otherwise();
-}
 
 		3.1:  Spaces
 
-Linux kernel style for use of spaces depends (mostly) on
-function-versus-keyword usage.  Use a space after (most) keywords.  The
-notable exceptions are sizeof, typeof, alignof, and __attribute__, which look
-somewhat like functions (and are usually used with parentheses in Linux,
-although they are not required in the language, as in: "sizeof info" after
-"struct fileinfo info;" is declared).
+Use a space after (most) keywords.  The notable exceptions are sizeof, typeof,
+alignof, and __attribute__, which look somewhat like functions.
 
 So use a space after these keywords:
 	if, switch, case, for, do, while
@@ -201,7 +181,7 @@ When declaring pointer data or a function that returns a pointer type, the
 preferred use of '*' is adjacent to the data name or function name and not
 adjacent to the type name.  Examples:
 
-	char *linux_banner;
+	char *foo_bar;
 	unsigned long long memparse(char *ptr, char **retptr);
 	char *match_strdup(substring_t *s);
 
@@ -383,45 +363,6 @@ EXPORT_SYMBOL(system_is_up);
 In function prototypes, include parameter names with their data types.
 Although this is not required by the C language, it is preferred in Linux
 because it is a simple way to add valuable information for the reader.
-
-
-		Chapter 7: Centralized exiting of functions
-
-Albeit deprecated by some people, the equivalent of the goto statement is
-used frequently by compilers in form of the unconditional jump instruction.
-
-The goto statement comes in handy when a function exits from multiple
-locations and some common work such as cleanup has to be done.  If there is no
-cleanup needed then just return directly.
-
-The rationale is:
-
-- unconditional statements are easier to understand and follow
-- nesting is reduced
-- errors by not updating individual exit points when making
-    modifications are prevented
-- saves the compiler work to optimize redundant code away ;)
-
-int fun(int a)
-{
-	int result = 0;
-	char *buffer = kmalloc(SIZE);
-
-	if (buffer == NULL)
-		return -ENOMEM;
-
-	if (condition1) {
-		while (loop1) {
-			...
-		}
-		result = 1;
-		goto out;
-	}
-	...
-out:
-	kfree(buffer);
-	return result;
-}
 
 
 		Appendix I: References
