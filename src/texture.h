@@ -24,9 +24,6 @@
 
 #include <SDL.h>
 #include <string>
-#ifndef NOOPENGL
-#include <SDL_opengl.h>
-#endif
 
 #include <list>
 #include "screen.h"
@@ -35,7 +32,6 @@ SDL_Surface *sdl_surface_from_sdl_surface(SDL_Surface *sdl_surf, int use_alpha);
 
 class SurfaceImpl;
 class SurfaceSDL;
-class SurfaceOpenGL;
 
 /** This class holds all the data necessary to construct a surface */
 class SurfaceData
@@ -58,12 +54,10 @@ class SurfaceData
 		~SurfaceData();
 
 		SurfaceSDL *create_SurfaceSDL();
-		SurfaceOpenGL *create_SurfaceOpenGL();
 		SurfaceImpl *create();
 };
 
-/** Container class that holds a surface, necessary so that we can
-    switch Surface implementations (OpenGL, SDL) on the fly */
+/** Container class that holds a SDL surface */
 class Surface
 {
 	public:
@@ -139,30 +133,6 @@ class SurfaceSDL : public SurfaceImpl
 		              Uint8 alpha, bool update);
 		int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);
 };
-
-#ifndef NOOPENGL
-class SurfaceOpenGL : public SurfaceImpl
-{
-	public:
-		unsigned gl_texture;
-
-	public:
-		SurfaceOpenGL(SDL_Surface *surf, int use_alpha);
-		SurfaceOpenGL(const std::string &file, int use_alpha);
-		SurfaceOpenGL(const std::string &file, int x, int y, int w, int h,
-		              int use_alpha);
-		virtual ~SurfaceOpenGL();
-
-		int draw(float x, float y, Uint8 alpha, bool update);
-		int draw_bg(Uint8 alpha, bool update);
-		int draw_part(float sx, float sy, float x, float y, float w, float h,
-		              Uint8 alpha, bool update);
-		int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);
-
-	private:
-		void create_gl(SDL_Surface *surf, GLuint *tex);
-};
-#endif
 
 #endif /*SUPERTUX_TEXTURE_H*/
 
