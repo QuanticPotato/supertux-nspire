@@ -22,9 +22,6 @@
 #define SUPERTUX_SCREEN_H
 
 #include <SDL.h>
-#ifndef NOOPENGL
-#include <SDL_opengl.h>
-#endif
 #include "texture.h"
 
 #define NO_UPDATE false

@@ -52,7 +52,6 @@ Text *white_big_text;
 
 MouseCursor *mouse_cursor;
 
-bool use_gl;
 bool use_joystick;
 bool use_fullscreen;
 bool debug_mode;

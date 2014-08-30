@@ -46,49 +46,20 @@
 
 void clearscreen(int r, int g, int b)
 {
-#ifndef NOOPENGL
-	if (use_gl) {
-		glClearColor(r / 256, g / 256, b / 256, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-	} else {
-#endif
-
-		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, r, g, b));
-#ifndef NOOPENGL
-
-	}
-#endif
+	SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, r, g, b));
 }
 
 /* --- DRAWS A VERTICAL GRADIENT --- */
 
 void drawgradient(Color top_clr, Color bot_clr)
 {
-#ifndef NOOPENGL
-	if (use_gl) {
-		glBegin(GL_QUADS);
-		glColor3ub(top_clr.red, top_clr.green, top_clr.blue);
-		glVertex2f(0, 0);
-		glVertex2f(640, 0);
-		glColor3ub(bot_clr.red, bot_clr.green, bot_clr.blue);
-		glVertex2f(640, 480);
-		glVertex2f(0, 480);
-		glEnd();
-	} else {
-#endif
-
-		for (float y = 0; y < 480; y += 2)
-			fillrect(0, (int)y, 640, 2,
-			         (int)(((float)(top_clr.red - bot_clr.red) / (0 - 480)) * y + top_clr.red),
-			         (int)(((float)(top_clr.green - bot_clr.green) / (0 - 480)) * y + top_clr.green),
-			         (int)(((float)(top_clr.blue - bot_clr.blue) / (0 - 480)) * y + top_clr.blue),
-			         255);
-		/* calculates the color for each line, based in the generic equation for functions: y = mx + b */
-
-#ifndef NOOPENGL
-
-	}
-#endif
+	for (float y = 0; y < 480; y += 2)
+		fillrect(0, (int)y, 640, 2,
+		         (int)(((float)(top_clr.red - bot_clr.red) / (0 - 480)) * y + top_clr.red),
+		         (int)(((float)(top_clr.green - bot_clr.green) / (0 - 480)) * y + top_clr.green),
+		         (int)(((float)(top_clr.blue - bot_clr.blue) / (0 - 480)) * y + top_clr.blue),
+		         255);
+	/* calculates the color for each line, based in the generic equation for functions: y = mx + b */
 }
 
 /* --- FADE IN --- */
@@ -191,58 +162,40 @@ void drawpixel(int x, int y, Uint32 pixel)
 
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 {
-#ifndef NOOPENGL
-	if (use_gl) {
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4ub(r, g, b, a);
+	/* Basic unantialiased Bresenham line algorithm */
+	int lg_delta, sh_delta, cycle, lg_step, sh_step;
+	Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
 
-		glBegin(GL_LINES);
-		glVertex2f(x1, y1);
-		glVertex2f(x2, y2);
-		glEnd();
-		glDisable(GL_BLEND);
-	} else {
-#endif
-
-		/* Basic unantialiased Bresenham line algorithm */
-		int lg_delta, sh_delta, cycle, lg_step, sh_step;
-		Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
-
-		lg_delta = x2 - x1;
-		sh_delta = y2 - y1;
-		lg_step = SGN(lg_delta);
-		lg_delta = ABS(lg_delta);
-		sh_step = SGN(sh_delta);
-		sh_delta = ABS(sh_delta);
-		if (sh_delta < lg_delta) {
-			cycle = lg_delta >> 1;
-			while (x1 != x2) {
-				drawpixel(x1, y1, color);
-				cycle += sh_delta;
-				if (cycle > lg_delta) {
-					cycle -= lg_delta;
-					y1 += sh_step;
-				}
-				x1 += lg_step;
-			}
+	lg_delta = x2 - x1;
+	sh_delta = y2 - y1;
+	lg_step = SGN(lg_delta);
+	lg_delta = ABS(lg_delta);
+	sh_step = SGN(sh_delta);
+	sh_delta = ABS(sh_delta);
+	if (sh_delta < lg_delta) {
+		cycle = lg_delta >> 1;
+		while (x1 != x2) {
 			drawpixel(x1, y1, color);
-		}
-		cycle = sh_delta >> 1;
-		while (y1 != y2) {
-			drawpixel(x1, y1, color);
-			cycle += lg_delta;
-			if (cycle > sh_delta) {
-				cycle -= sh_delta;
-				x1 += lg_step;
+			cycle += sh_delta;
+			if (cycle > lg_delta) {
+				cycle -= lg_delta;
+				y1 += sh_step;
 			}
-			y1 += sh_step;
+			x1 += lg_step;
 		}
 		drawpixel(x1, y1, color);
-#ifndef NOOPENGL
-
 	}
-#endif
+	cycle = sh_delta >> 1;
+	while (y1 != y2) {
+		drawpixel(x1, y1, color);
+		cycle += lg_delta;
+		if (cycle > sh_delta) {
+			cycle -= sh_delta;
+			x1 += lg_step;
+		}
+		y1 += sh_step;
+	}
+	drawpixel(x1, y1, color);
 }
 
 /* --- FILL A RECT --- */
@@ -258,57 +211,37 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 		h = -h;
 	}
 
-#ifndef NOOPENGL
-	if (use_gl) {
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4ub(r, g, b, a);
+	SDL_Rect src, rect;
+	SDL_Surface *temp = NULL;
 
-		glBegin(GL_POLYGON);
-		glVertex2f(x, y);
-		glVertex2f(x + w, y);
-		glVertex2f(x + w, y + h);
-		glVertex2f(x, y + h);
-		glEnd();
-		glDisable(GL_BLEND);
-	} else {
-#endif
-		SDL_Rect src, rect;
-		SDL_Surface *temp = NULL;
+	rect.x = (int)x;
+	rect.y = (int)y;
+	rect.w = (int)w;
+	rect.h = (int)h;
 
-		rect.x = (int)x;
-		rect.y = (int)y;
-		rect.w = (int)w;
-		rect.h = (int)h;
-
-		if (a != 255) {
-			temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h,
-			                            screen->format->BitsPerPixel,
-			                            screen->format->Rmask,
-			                            screen->format->Gmask,
-			                            screen->format->Bmask,
-			                            screen->format->Amask);
+	if (a != 255) {
+		temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h,
+					    screen->format->BitsPerPixel,
+					    screen->format->Rmask,
+					    screen->format->Gmask,
+					    screen->format->Bmask,
+					    screen->format->Amask);
 
 
-			src.x = 0;
-			src.y = 0;
-			src.w = rect.w;
-			src.h = rect.h;
+		src.x = 0;
+		src.y = 0;
+		src.w = rect.w;
+		src.h = rect.h;
 
-			SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
+		SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
 
-			SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+		SDL_SetAlpha(temp, SDL_SRCALPHA, a);
 
-			SDL_BlitSurface(temp, 0, screen, &rect);
+		SDL_BlitSurface(temp, 0, screen, &rect);
 
-			SDL_FreeSurface(temp);
-		} else
-			SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
-
-#ifndef NOOPENGL
-
-	}
-#endif
+		SDL_FreeSurface(temp);
+	} else
+		SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
 }
 
 
@@ -316,18 +249,12 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 
 void updatescreen(void)
 {
-	if (use_gl) /*clearscreen(0,0,0);*/
-		SDL_GL_SwapBuffers();
-	else
-		SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
+	SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
 }
 
 void flipscreen(void)
 {
-	if (use_gl)
-		SDL_GL_SwapBuffers();
-	else
-		SDL_Flip(screen);
+	SDL_Flip(screen);
 }
 
 void fadeout()
@@ -340,7 +267,6 @@ void fadeout()
 
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)
 {
-	if (!use_gl)
-		SDL_UpdateRect(scr, x, y, w, h);
+	SDL_UpdateRect(scr, x, y, w, h);
 }
 

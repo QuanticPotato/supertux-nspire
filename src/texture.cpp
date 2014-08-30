@@ -206,42 +206,7 @@ Surface *Surface::CaptureScreen()
 {
 	Surface *cap_screen;
 
-	if (!(screen->flags & SDL_OPENGL))
-		cap_screen = new Surface(SDL_GetVideoSurface(), false);
-
-#ifndef NOOPENGL
-	if (use_gl) {
-		SDL_Surface *temp;
-		unsigned char *pixels;
-		int i;
-		temp = SDL_CreateRGBSurface(SDL_SWSURFACE, screen->w, screen->h, 24,
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-		                            0x000000FF, 0x0000FF00, 0x00FF0000, 0
-#else
-		                            0x00FF0000, 0x0000FF00, 0x000000FF, 0
-#endif
-		                           );
-		if (temp == NULL)
-			st_abort("Error while trying to capture the screen in OpenGL mode", "");
-
-		pixels = (unsigned char *) malloc(3 * screen->w * screen->h);
-		if (pixels == NULL) {
-			SDL_FreeSurface(temp);
-			st_abort("Error while trying to capture the screen in OpenGL mode", "");
-		}
-
-		glReadPixels(0, 0, screen->w, screen->h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-		for (i = 0; i < screen->h; i++)
-			memcpy(((char *) temp->pixels) + temp->pitch * i,
-			       pixels + 3 * screen->w * (screen->h - i - 1), screen->w * 3);
-		free(pixels);
-
-		cap_screen = new Surface(temp, false);
-		SDL_FreeSurface(temp);
-
-	}
-#endif
+	cap_screen = new Surface(SDL_GetVideoSurface(), false);
 
 	return cap_screen;
 }
@@ -283,7 +248,7 @@ sdl_surface_part_from_file(const std::string &file, int x, int y, int w, int h,
 	SDL_SetAlpha(temp, 0, 0);
 
 	SDL_BlitSurface(temp, &src, conv, NULL);
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHA)
 		sdl_surface = SDL_DisplayFormat(conv);
 	else
 		sdl_surface = SDL_DisplayFormatAlpha(conv);
@@ -291,7 +256,7 @@ sdl_surface_part_from_file(const std::string &file, int x, int y, int w, int h,
 	if (sdl_surface == NULL)
 		st_abort("Can't covert to display format", file);
 
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHA)
 		SDL_SetAlpha(sdl_surface, 0, 0);
 
 	SDL_FreeSurface(temp);
@@ -310,7 +275,7 @@ SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 	if (temp == NULL)
 		st_abort("Can't load", file);
 
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHAl)
 		sdl_surface = SDL_DisplayFormat(temp);
 	else
 		sdl_surface = SDL_DisplayFormatAlpha(temp);
@@ -318,7 +283,7 @@ SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 	if (sdl_surface == NULL)
 		st_abort("Can't covert to display format", file);
 
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHA)
 		SDL_SetAlpha(sdl_surface, 0, 0);
 
 	SDL_FreeSurface(temp);
@@ -339,7 +304,7 @@ SDL_Surface * sdl_surface_from_sdl_surface(SDL_Surface *sdl_surf, int use_alpha)
 	        == SDL_SRCALPHA)
 		SDL_SetAlpha(sdl_surf, 0, 0);
 
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHA)
 		sdl_surface = SDL_DisplayFormat(sdl_surf);
 	else
 		sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
@@ -352,7 +317,7 @@ SDL_Surface * sdl_surface_from_sdl_surface(SDL_Surface *sdl_surf, int use_alpha)
 	if (sdl_surface == NULL)
 		st_abort("Can't covert to display format", "SURFACE");
 
-	if (use_alpha == IGNORE_ALPHA && !use_gl)
+	if (use_alpha == IGNORE_ALPHA)
 		SDL_SetAlpha(sdl_surface, 0, 0);
 
 	return sdl_surface;

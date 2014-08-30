@@ -293,12 +293,8 @@ void st_menu(void)
 
 	options_menu->additem(MN_LABEL, "Options", 0, 0);
 	options_menu->additem(MN_HL, "", 0, 0);
-#ifndef NOOPENGL
-	options_menu->additem(MN_TOGGLE, "OpenGL", use_gl, 0, MNID_OPENGL);
-#else
 	options_menu->additem(MN_DEACTIVE, "OpenGL (not supported)", use_gl, 0,
 	                      MNID_OPENGL);
-#endif
 	options_menu->additem(MN_TOGGLE, "Fullscreen", use_fullscreen, 0,
 	                      MNID_FULLSCREEN);
 	if (audio_device) {
@@ -539,11 +535,7 @@ void st_video_setup(void)
 		exit(1);
 	}
 
-	/* Open display: */
-	if (use_gl)
-		st_video_setup_gl();
-	else
-		st_video_setup_sdl();
+	st_video_setup_sdl();
 
 	Surface::reload_all();
 
