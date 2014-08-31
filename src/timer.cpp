@@ -20,9 +20,13 @@
 //  02111-1307, USA.
 
 #include "timer.h"
-#include "defines.h"
 
 unsigned int st_pause_ticks, st_pause_count;
+
+unsigned int SDL_GetTicks_Wrapper(void)
+{
+	return (unsigned int) SDL_GetTicks();
+}
 
 unsigned int st_get_ticks(void)
 {
@@ -72,7 +76,7 @@ Timer::init(bool st_ticks)
 {
 	period    = 0;
 	time      = 0;
-	get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks;
+	get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks_Wrapper;
 }
 
 void
@@ -155,7 +159,7 @@ Timer::fread(FILE *fi)
 	if (tick_mode)
 		get_ticks = st_get_ticks;
 	else
-		get_ticks = SDL_GetTicks;
+		get_ticks = SDL_GetTicks_Wrapper;
 
 	if (diff_ticks != 0)
 		time = get_ticks() - diff_ticks;

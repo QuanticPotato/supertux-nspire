@@ -23,29 +23,13 @@
 #ifndef SUPERTUX_GLOBALS_H
 #define SUPERTUX_GLOBALS_H
 
+#include <SDL/SDL.h>
 #include <string>
-#include <SDL.h>
 
 #include "text.h"
 #include "menu.h"
-#include "mousecursor.h"
 
 extern std::string datadir;
-
-struct JoystickKeymap {
-	int a_button;
-	int b_button;
-	int start_button;
-
-	int x_axis;
-	int y_axis;
-
-	int dead_zone;
-
-	JoystickKeymap();
-};
-
-extern JoystickKeymap joystick_keymap;
 
 extern SDL_Surface *screen;
 extern Text *black_text;
@@ -59,16 +43,9 @@ extern Text *red_text;
 extern Text *green_text;
 extern Text *yellow_nums;
 
-extern MouseCursor *mouse_cursor;
-
-extern bool use_gl;
-extern bool use_joystick;
-extern bool use_fullscreen;
 extern bool debug_mode;
 extern bool show_fps;
 
-/** The number of the joystick that will be use in the game */
-extern int joystick_num;
 extern char *level_startup_file;
 extern bool launch_leveleditor_mode;
 
@@ -77,7 +54,6 @@ extern char *st_dir;
 extern char *st_save_dir;
 
 extern float game_speed;
-extern SDL_Joystick *js;
 
 int wait_for_event(SDL_Event &event, unsigned int min_delay = 0,
                    unsigned int max_delay = 0, bool empty_events = false);

@@ -19,22 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "setup.h"
-
-#include "defines.h"
 #include "globals.h"
-#include "setup.h"
-#include "screen.h"
-#include "texture.h"
-#include "menu.h"
-#include "gameloop.h"
-#include "configfile.h"
-#include "scene.h"
-#include "worldmap.h"
-#include "resources.h"
-#include "intro.h"
-#include "music_manager.h"
-
-#include "player.h"
 
 /* Screen proprities: */
 /* Don't use this to test for the actual screen sizes. Use screen->w/h
@@ -293,28 +278,23 @@ void st_menu(void)
 
 	options_menu->additem(MN_LABEL, "Options", 0, 0);
 	options_menu->additem(MN_HL, "", 0, 0);
-	options_menu->additem(MN_DEACTIVE, "OpenGL (not supported)", use_gl, 0,
+	options_menu->additem(MN_DEACTIVE, "OpenGL (not supported)", 0, 0,
 	                      MNID_OPENGL);
-	options_menu->additem(MN_TOGGLE, "Fullscreen", use_fullscreen, 0,
+	options_menu->additem(MN_DEACTIVE, "Fullscreen", 0, 0,
 	                      MNID_FULLSCREEN);
-	if (audio_device) {
-		options_menu->additem(MN_TOGGLE, "Sound     ", use_sound, 0, MNID_SOUND);
-		options_menu->additem(MN_TOGGLE, "Music     ", use_music, 0, MNID_MUSIC);
-	} else {
-		options_menu->additem(MN_DEACTIVE, "Sound     ", false, 0, MNID_SOUND);
-		options_menu->additem(MN_DEACTIVE, "Music     ", false, 0, MNID_MUSIC);
-	}
+
+	options_menu->additem(MN_DEACTIVE, "Sound     ", false, 0, MNID_SOUND);
+	options_menu->additem(MN_DEACTIVE, "Music     ", false, 0, MNID_MUSIC);
+	
 	options_menu->additem(MN_TOGGLE, "Show FPS  ", show_fps, 0, MNID_SHOWFPS);
 	options_menu->additem(MN_GOTO, "Keyboard Setup", 0, options_keys_menu);
-
-	//if(use_joystick)
-	//  options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
 
 	options_menu->additem(MN_HL, "", 0, 0);
 	options_menu->additem(MN_BACK, "Back", 0, 0);
 
 	options_keys_menu->additem(MN_LABEL, "Key Setup", 0, 0);
 	options_keys_menu->additem(MN_HL, "", 0, 0);
+	/** TODO 
 	options_keys_menu->additem(MN_CONTROLFIELD, "Left move", 0, 0, 0, &keymap.left);
 	options_keys_menu->additem(MN_CONTROLFIELD, "Right move", 0, 0, 0,
 	                           &keymap.right);
@@ -322,26 +302,7 @@ void st_menu(void)
 	options_keys_menu->additem(MN_CONTROLFIELD, "Duck", 0, 0, 0, &keymap.duck);
 	options_keys_menu->additem(MN_CONTROLFIELD, "Power/Run", 0, 0, 0, &keymap.fire);
 	options_keys_menu->additem(MN_HL, "", 0, 0);
-	options_keys_menu->additem(MN_BACK, "Back", 0, 0);
-
-	if (use_joystick) {
-		options_joystick_menu->additem(MN_LABEL, "Joystick Setup", 0, 0);
-		options_joystick_menu->additem(MN_HL, "", 0, 0);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "X axis", 0, 0, 0,
-		                               &joystick_keymap.x_axis);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "Y axis", 0, 0, 0,
-		                               &joystick_keymap.y_axis);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "A button", 0, 0, 0,
-		                               &joystick_keymap.a_button);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "B button", 0, 0, 0,
-		                               &joystick_keymap.b_button);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "Start", 0, 0, 0,
-		                               &joystick_keymap.start_button);
-		options_joystick_menu->additem(MN_CONTROLFIELD, "DeadZone", 0, 0, 0,
-		                               &joystick_keymap.dead_zone);
-		options_joystick_menu->additem(MN_HL, "", 0, 0);
-		options_joystick_menu->additem(MN_BACK, "Back", 0, 0);
-	}
+	options_keys_menu->additem(MN_BACK, "Back", 0, 0);*/
 
 	load_game_menu->additem(MN_LABEL, "Start Game", 0, 0);
 	load_game_menu->additem(MN_HL, "", 0, 0);
@@ -382,6 +343,7 @@ void st_menu(void)
 
 void update_load_save_game_menu(Menu *pmenu)
 {
+	/* TODO
 	for (int i = 2; i < 7; ++i) {
 		// FIXME: Insert a real savegame struct/class here instead of
 		// doing string vodoo
@@ -389,10 +351,12 @@ void update_load_save_game_menu(Menu *pmenu)
 		pmenu->item[i].kind = MN_ACTION;
 		pmenu->item[i].change_text(tmp.c_str());
 	}
+	*/
 }
 
 bool process_load_game_menu()
 {
+	/* TODO
 	int slot = load_game_menu->check();
 
 	if (slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION) {
@@ -420,18 +384,13 @@ bool process_load_game_menu()
 		return true;
 	} else
 		return false;
+	*/
 }
 
 /* Handle changes made to global settings in the options menu. */
 void process_options_menu(void)
 {
 	switch (options_menu->check()) {
-		case MNID_FULLSCREEN:
-			if (use_fullscreen != options_menu->isToggled(MNID_FULLSCREEN)) {
-				use_fullscreen = !use_fullscreen;
-				st_video_setup();
-			}
-			break;
 		case MNID_SHOWFPS:
 			if (show_fps != options_menu->isToggled(MNID_SHOWFPS))
 				show_fps = !show_fps;
@@ -444,10 +403,6 @@ void st_general_setup(void)
 	/* Seed random number generator: */
 
 	srand(SDL_GetTicks());
-
-	/* Set icon image: */
-
-	seticon();
 
 	/* Unicode needed for input handling: */
 
@@ -483,11 +438,6 @@ void st_general_setup(void)
 	back = new Surface(datadir + "/images/status/back.png", USE_ALPHA);
 	arrow_left = new Surface(datadir + "/images/icons/left.png", USE_ALPHA);
 	arrow_right = new Surface(datadir + "/images/icons/right.png", USE_ALPHA);
-
-	/* Load the mouse-cursor */
-	mouse_cursor = new MouseCursor(datadir + "/images/status/mousecursor.png", 1);
-	MouseCursor::set_current(mouse_cursor);
-
 }
 
 void st_general_free(void)
@@ -511,9 +461,6 @@ void st_general_free(void)
 	delete back;
 	delete arrow_left;
 	delete arrow_right;
-
-	/* Free mouse-cursor */
-	delete mouse_cursor;
 
 	/* Free menus */
 	delete main_menu;
@@ -545,27 +492,14 @@ void st_video_setup(void)
 
 void st_video_setup_sdl(void)
 {
-	if (use_fullscreen) {
-		screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0,
-		                          SDL_FULLSCREEN) ;  /* | SDL_HWSURFACE); */
-		if (screen == NULL) {
-			fprintf(stderr,
-			        "\nWarning: I could not set up fullscreen video for "
-			        "640x480 mode.\n"
-			        "The Simple DirectMedia error that occured was:\n"
-			        "%s\n\n", SDL_GetError());
-			use_fullscreen = false;
-		}
-	} else {
-		screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-		if (screen == NULL) {
-			fprintf(stderr,
-			        "\nError: I could not set up video for 640x480 mode.\n"
-			        "The Simple DirectMedia error that occured was:\n"
-			        "%s\n\n", SDL_GetError());
-			exit(1);
-		}
+	if (screen == NULL) {
+		fprintf(stderr,
+		        "\nError: I could not set up video for 640x480 mode.\n"
+		        "The Simple DirectMedia error that occured was:\n"
+		        "%s\n\n", SDL_GetError());
+		exit(1);
 	}
 }
 
@@ -573,7 +507,6 @@ void st_video_setup_sdl(void)
 
 void st_shutdown(void)
 {
-	close_audio();
 	SDL_Quit();
 	saveconfig();
 }

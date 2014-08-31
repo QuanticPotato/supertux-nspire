@@ -21,12 +21,28 @@
 #ifndef SUPERTUX_MENU_H
 #define SUPERTUX_MENU_H
 
-#include <SDL.h>
+#include <SDL/SDL.h>
+#include <sys/types.h>
+#include <ctype.h>
+
 #include <vector>
-#include "texture.h"
+#include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <assert.h>
+
+#include "defines.h"
+#include "menu.h"
+#include "screen.h"
+#include "setup.h"
+#include "scene.h"
+//#include "leveleditor.h"
 #include "timer.h"
+//#include "high_scores.h"
 #include "type.h"
-#include "mousecursor.h"
+
+class Surface;
 
 /* IDs for menus */
 
@@ -215,7 +231,7 @@ class Menu
 
 		bool isToggled(int id);
 
-		void Menu::get_controlfield_key_into_input(MenuItem *item);
+		void get_controlfield_key_into_input(MenuItem *item);
 
 		void draw();
 		void draw_item(int index, int menu_width, int menu_height);

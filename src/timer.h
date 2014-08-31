@@ -22,7 +22,8 @@
 #ifndef SUPERTUX_TIMER_H
 #define SUPERTUX_TIMER_H
 
-#include <SDL.h>
+#include <SDL/SDL.h>
+#include "defines.h"
 
 extern unsigned int st_pause_ticks, st_pause_count;
 
@@ -31,6 +32,8 @@ void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
 bool st_pause_ticks_started(void);
+
+unsigned int SDL_GetTicks_Wrapper(void);
 
 class Timer
 {

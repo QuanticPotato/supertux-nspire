@@ -29,8 +29,8 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -43,6 +43,17 @@
 
 #include "menu.h"
 #include "type.h"
+#include "defines.h"
+#include "screen.h"
+#include "texture.h"
+#include "menu.h"
+//#include "gameloop.h"
+#include "configfile.h"
+#include "scene.h"
+//#include "worldmap.h"
+//#include "ressources.h"
+//#include "intro.h"
+//#include "player.h"
 
 #define SUPERTUX_DIRECTORY "supertux"
 

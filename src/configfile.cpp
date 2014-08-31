@@ -24,7 +24,7 @@
 #include "setup.h"
 #include "globals.h"
 #include "lispreader.h"
-#include "player.h"
+//#include "player.h"
 
 const char *config_filename = "/config";
 
@@ -67,11 +67,11 @@ void loadconfig(void)
 
 	reader.read_bool("show_fps",   &show_fps);
 
-	reader.read_int("keyboard-jump", &keymap.jump);
+	/*reader.read_int("keyboard-jump", &keymap.jump);
 	reader.read_int("keyboard-duck", &keymap.duck);
 	reader.read_int("keyboard-left", &keymap.left);
 	reader.read_int("keyboard-right", &keymap.right);
-	reader.read_int("keyboard-fire", &keymap.fire);
+	reader.read_int("keyboard-fire", &keymap.fire);*/
 
 	lisp_free(root_obj);
 	fclose(file);
@@ -88,11 +88,11 @@ void saveconfig(void)
 		fprintf(config, "\t;; the following options can be set to #t or #f:\n");
 		fprintf(config, "\t(show_fps   %s)\n", show_fps       ? "#t" : "#f");
 
-		fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
+		/*fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
 		fprintf(config, "\t(keyboard-duck  %d)\n", keymap.duck);
 		fprintf(config, "\t(keyboard-left  %d)\n", keymap.left);
 		fprintf(config, "\t(keyboard-right %d)\n", keymap.right);
-		fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);
+		fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);*/
 
 		fprintf(config, ")\n");
 

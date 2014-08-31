@@ -24,6 +24,7 @@
 
 #include <string>
 #include "texture.h"
+#include "screen.h"
 
 void display_text_file(const std::string &file, const std::string &surface,
                        float scroll_speed);

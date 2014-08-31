@@ -20,14 +20,7 @@
 //  02111-1307, USA.
 
 #include "texture.h"
-
-#include <assert.h>
-#include <iostream>
-#include <algorithm>
-#include "SDL.h"
-#include "SDL_image.h"
 #include "globals.h"
-#include "setup.h"
 
 Surface::Surfaces Surface::surfaces;
 
@@ -275,7 +268,7 @@ SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 	if (temp == NULL)
 		st_abort("Can't load", file);
 
-	if (use_alpha == IGNORE_ALPHAl)
+	if (use_alpha == IGNORE_ALPHA)
 		sdl_surface = SDL_DisplayFormat(temp);
 	else
 		sdl_surface = SDL_DisplayFormatAlpha(temp);

@@ -18,25 +18,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
-
-#ifndef WIN32
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-
-#include "defines.h"
-#include "globals.h"
 #include "screen.h"
-#include "setup.h"
-#include "type.h"
+#include "globals.h"
 
 /* Needed for line calculations */
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))

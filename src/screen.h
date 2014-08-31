@@ -21,7 +21,19 @@
 #ifndef SUPERTUX_SCREEN_H
 #define SUPERTUX_SCREEN_H
 
-#include <SDL.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <sys/types.h>
+#include <ctype.h>
+
+#include <iostream>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <unistd.h>
+
+#include "defines.h"
+#include "setup.h"
 #include "texture.h"
 
 #define NO_UPDATE false

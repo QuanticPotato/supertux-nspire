@@ -24,20 +24,6 @@
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
 
-JoystickKeymap::JoystickKeymap()
-{
-	a_button     = 0;
-	b_button     = 1;
-	start_button = 2;
-
-	x_axis = 0;
-	y_axis = 1;
-
-	dead_zone = 4096;
-}
-
-JoystickKeymap joystick_keymap;
-
 SDL_Surface *screen;
 Text *black_text;
 Text *gold_text;
@@ -50,22 +36,15 @@ Text *white_text;
 Text *white_small_text;
 Text *white_big_text;
 
-MouseCursor *mouse_cursor;
-
-bool use_joystick;
-bool use_fullscreen;
 bool debug_mode;
 bool show_fps;
 float game_speed = 1.0f;
 
-int joystick_num = 0;
 char *level_startup_file = 0;
 bool launch_leveleditor_mode = false;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 char *st_dir, *st_save_dir;
-
-SDL_Joystick *js;
 
 /* Returns 1 for every button event, 2 for a quit event and 0 for no event. */
 int wait_for_event(SDL_Event &event, unsigned int min_delay,

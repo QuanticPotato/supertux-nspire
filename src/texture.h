@@ -22,10 +22,16 @@
 #ifndef SUPERTUX_TEXTURE_H
 #define SUPERTUX_TEXTURE_H
 
-#include <SDL.h>
-#include <string>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 
+#include <string>
+#include <assert.h>
+#include <iostream>
+#include <algorithm>
 #include <list>
+
+#include "setup.h"
 #include "screen.h"
 
 SDL_Surface *sdl_surface_from_sdl_surface(SDL_Surface *sdl_surf, int use_alpha);

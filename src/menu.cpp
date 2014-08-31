@@ -18,27 +18,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef WIN32
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-
-#include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <assert.h>
-
-#include "defines.h"
 #include "globals.h"
-#include "menu.h"
-#include "screen.h"
-#include "setup.h"
-#include "sound.h"
-#include "scene.h"
-#include "leveleditor.h"
-#include "timer.h"
-#include "high_scores.h"
+#include "texture.h"
 
 #define FLICK_CURSOR_TIME 500
 
@@ -104,7 +85,6 @@ bool confirm_dialog(std::string text)
 				break;
 		}
 
-		mouse_cursor->draw();
 		flipscreen();
 		SDL_Delay(25);
 	}
@@ -121,8 +101,7 @@ void Menu::push_current(Menu *pmenu)
 	current_->effect.start(500);
 }
 
-void
-Menu::pop_current()
+void Menu::pop_current()
 {
 	if (!last_menus.empty()) {
 		current_ = last_menus.back();
@@ -133,8 +112,7 @@ Menu::pop_current()
 		current_ = 0;
 }
 
-void
-Menu::set_current(Menu *menu)
+void Menu::set_current(Menu *menu)
 {
 	last_menus.clear();
 
@@ -180,8 +158,7 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_,
 	return pnew_item;
 }
 
-void
-MenuItem::change_text(const  char *text_)
+void MenuItem::change_text(const  char *text_)
 {
 	if (text_) {
 		free(text);
@@ -190,8 +167,7 @@ MenuItem::change_text(const  char *text_)
 	}
 }
 
-void
-MenuItem::change_input(const  char *text_)
+void MenuItem::change_input(const  char *text_)
 {
 	if (text) {
 		free(input);
@@ -307,30 +283,26 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 	pos_y = y + (int)((float)get_height() * rh);
 }
 
-void
-Menu::additem(MenuItemKind kind_, const std::string &text_, int toggle_,
+void Menu::additem(MenuItemKind kind_, const std::string &text_, int toggle_,
               Menu *menu_, int id, int *int_p)
 {
 	additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, id, int_p));
 }
 
 /* Add an item to a menu */
-void
-Menu::additem(MenuItem *pmenu_item)
+void Menu::additem(MenuItem *pmenu_item)
 {
 	item.push_back(*pmenu_item);
 	delete pmenu_item;
 }
 
-void
-Menu::clear()
+void Menu::clear()
 {
 	item.clear();
 }
 
 /* Process actions done on the menu */
-void
-Menu::action()
+void Menu::action() 
 {
 	hit_item = -1;
 	if (item.size() != 0) {
@@ -453,8 +425,7 @@ Menu::action()
 	menuaction = MENU_ACTION_NONE;
 }
 
-int
-Menu::check()
+int Menu::check()
 {
 	if (hit_item != -1)
 		return item[hit_item].id;
@@ -462,10 +433,9 @@ Menu::check()
 		return -1;
 }
 
-void
-Menu::draw_item(int index, // Position of the current item in the menu
-                int menu_width,
-                int menu_height)
+void Menu::draw_item(int index, // Position of the current item in the menu
+                     int menu_width,
+                     int menu_height)
 {
 	MenuItem &pitem = item[index];
 
@@ -638,8 +608,7 @@ int Menu::get_height() const
 }
 
 /* Draw the current menu. */
-void
-Menu::draw()
+void Menu::draw()
 {
 	int menu_height = get_height();
 	int menu_width  = get_width();
@@ -654,8 +623,7 @@ Menu::draw()
 		draw_item(i, menu_width, menu_height);
 }
 
-MenuItem &
-Menu::get_item_by_id(int id)
+MenuItem &Menu::get_item_by_id(int id)
 {
 	for (std::vector<MenuItem>::iterator i = item.begin(); i != item.end(); ++i) {
 		if (i->id == id)
@@ -672,15 +640,13 @@ int Menu::get_active_item_id()
 	return item[active_item].id;
 }
 
-bool
-Menu::isToggled(int id)
+bool Menu::isToggled(int id)
 {
 	return get_item_by_id(id).toggled;
 }
 
 /* Check for menu event */
-void
-Menu::event(SDL_Event &event)
+void Menu::event(SDL_Event &event)
 {
 	SDLKey key;
 	switch (event.type) {
@@ -750,44 +716,6 @@ Menu::event(SDL_Event &event)
 						mn_input_char = '\0';
 					break;
 			}
-			break;
-		case  SDL_JOYHATMOTION:
-			if (event.jhat.value == SDL_HAT_UP)
-				menuaction = MENU_ACTION_UP;
-			if (event.jhat.value == SDL_HAT_DOWN)
-				menuaction = MENU_ACTION_DOWN;
-			break;
-		case  SDL_JOYAXISMOTION:
-			if (event.jaxis.axis == joystick_keymap.y_axis) {
-				if (event.jaxis.value > 1024)
-					menuaction = MENU_ACTION_DOWN;
-				else if (event.jaxis.value < -1024)
-					menuaction = MENU_ACTION_UP;
-			}
-			break;
-		case  SDL_JOYBUTTONDOWN:
-			menuaction = MENU_ACTION_HIT;
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			x = event.motion.x;
-			y = event.motion.y;
-			if (x > pos_x - get_width() / 2 &&
-			        x < pos_x + get_width() / 2 &&
-			        y > pos_y - get_height() / 2 &&
-			        y < pos_y + get_height() / 2)
-				menuaction = MENU_ACTION_HIT;
-			break;
-		case SDL_MOUSEMOTION:
-			x = event.motion.x;
-			y = event.motion.y;
-			if (x > pos_x - get_width() / 2 &&
-			        x < pos_x + get_width() / 2 &&
-			        y > pos_y - get_height() / 2 &&
-			        y < pos_y + get_height() / 2) {
-				active_item = (y - (pos_y - get_height() / 2)) / 24;
-				mouse_cursor->set_state(MC_LINK);
-			} else
-				mouse_cursor->set_state(MC_NORMAL);
 			break;
 		default:
 			break;
