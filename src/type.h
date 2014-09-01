@@ -24,7 +24,14 @@
 
 #include <string>
 #include <SDL/SDL.h>
+
+#include <SDL/SDL_image.h>
 #include "scene.h"
+#include "string.h"
+#include "stdlib.h"
+#include "defines.h"
+#include "scene.h"
+
 
 /* 'Base' type for game objects */
 

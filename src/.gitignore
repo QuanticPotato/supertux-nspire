@@ -1,0 +1,12 @@
+config.status
+config.log
+configure
+aclocal.m4
+autom4te.cache/*
+*.o
+.deps/*
+Makefile
+Makefile.in
+*.zehn
+*.tns
+*.elf

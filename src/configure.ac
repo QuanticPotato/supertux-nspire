@@ -12,8 +12,7 @@ AC_INIT([SuperTux-nSpire], 0.1)
 
 AC_COPYRIGHT([This project comes from the original game SuperTux.  To get more information, refer to the README.md file.  This project is licensed under the GPL license. (c.f. COPYING)
 		
-		The original author of this adaptation is 
-			CHAUVIN Barnabé	(barnabe.chauvin@gmail.com)])
+		The original author of this adaptation is CHAUVIN Barnabé	(barnabe.chauvin@gmail.com)])
 
 AC_CONFIG_SRCDIR([main.cpp]) 
 
@@ -68,9 +67,9 @@ AC_PROG_CXX
 
 AC_MSG_CHECKING([--with-nspire-linker argument])
 AC_ARG_WITH([nspire-linker], 
-	[  --with-nspire-linker=PATH     which nspire linker to use (default : nspire-ld-bflt)],
+	[  --with-nspire-linker=PATH     which nspire linker to use (default : nspire-ld)],
 	[NSPIRE_LD="$withval" ; AC_MSG_RESULT($NSPIRE_LD)],
-	[NSPIRE_LD="nspire-ld-bflt" ; AC_MSG_RESULT([no  (default is $NSPIRE_LD)])])
+	[NSPIRE_LD="nspire-ld" ; AC_MSG_RESULT([no  (default is $NSPIRE_LD)])])
 
 AC_CHECK_PROG(has_nspire_ld, "$NSPIRE_LD", "yes", "no")
 if test "$has_nspire_ld" = no ; then
@@ -80,6 +79,53 @@ fi
 
 AC_SUBST([NSPIRE_LD], $NSPIRE_LD)
 
+
+# Check for the genzehn
+
+AC_MSG_CHECKING([--with-nspire-genzehn argument])
+AC_ARG_WITH([nspire-genzehn], 
+	[  --with-nspire-genzehn=PATH     which nspire genzehn to use (default : genzehn)],
+	[NSPIRE_GENZEHN="$withval" ; AC_MSG_RESULT($NSPIRE_GENZEHN)],
+	[NSPIRE_GENZEHN="genzehn" ; AC_MSG_RESULT([no  (default is $NSPIRE_GENZEHN)])])
+
+AC_CHECK_PROG(has_nspire_genzehn, "$NSPIRE_GENZEHN", "yes", "no")
+if test "$has_nspire_genzehn" = no ; then
+	AC_MSG_ERROR([ no nspire genzhen found !
+		(You can specify one with the --with-nspire-genzhen argument)])
+fi
+
+AC_SUBST([NSPIRE_GENZEHN], $NSPIRE_GENZEHN)
+AC_SUBST([NSPIRE_ZEHN_FLAGS], )
+
+
+# Check for the make-prg
+
+AC_MSG_CHECKING([--with-nspire-make-prg argument])
+AC_ARG_WITH([nspire-make-prg], 
+	[  --with-nspire-make-prg=PATH     which nspire make-prg to use (default : make-prg)],
+	[NSPIRE_MAKE_PRG="$withval" ; AC_MSG_RESULT($NSPIRE_MAKE_PRG)],
+	[NSPIRE_MAKE_PRG="make-prg" ; AC_MSG_RESULT([no  (default is $NSPIRE_MAKE_PRG)])])
+
+AC_CHECK_PROG(has_nspire_make_prg, "$NSPIRE_MAKE_PRG", "yes", "no")
+if test "$has_nspire_make_prg" = no ; then
+	AC_MSG_ERROR([ no nspire make-prg found !
+		(You can specify one with the --with-nspire-make-prg argument)])
+fi
+
+AC_SUBST([NSPIRE_MAKE_PRG], $NSPIRE_MAKE_PRG)
+
+
+dnl Constants
+
+output_name=supertux
+exe_ext=.tns
+elf_ext=.elf
+zehn_ext=.zehn
+AC_SUBST([OUTPUT_NAME], $output_name)
+AC_SUBST([EXE_NAME], $output_name$exe_ext)
+AC_SUBST([ELF_NAME], $output_name$elf_ext)
+AC_SUBST([ZEHN_NAME], $output_name$zehn_ext)
+
 AC_OUTPUT
 
 echo ""
@@ -88,4 +134,6 @@ echo "=========================="
 echo ""
 echo "You can now build the game with :"
 echo "	make"
+echo ""
+echo "The executable $exe_name will be built ..."
 echo ""

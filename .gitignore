@@ -1,9 +1,0 @@
-src/config.status
-src/config.log
-src/configure
-src/aclocal.m4
-src/autom4te.cache/*
-src/*.o
-src/.deps/*
-src/Makefile
-src/Makefile.in

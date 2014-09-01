@@ -20,14 +20,9 @@
 //  02111-1307, USA.
 
 #include "type.h"
-#include "SDL_image.h"
-#include "string.h"
-#include "stdlib.h"
-#include "setup.h"
 #include "globals.h"
+#include "setup.h"
 #include "screen.h"
-#include "defines.h"
-#include "scene.h"
 
 void string_list_init(string_list_type *pstring_list)
 {
