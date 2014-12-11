@@ -10,3 +10,4 @@ Makefile.in
 *.zehn
 *.tns
 *.elf
+tags
