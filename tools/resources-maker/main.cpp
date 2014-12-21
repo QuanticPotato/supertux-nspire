@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 		SDL_Surface *image = IMG_Load(argv[i]);
 		int width = image->w, height = image->h;
 		cout << "static unsigned short " << argv[i + 1] << "[] {" << endl;
-		cout << hex << setw(8) << "\t0x2a01, 0x" << width << ", 0x" << height;
+		cout << hex << "\t0x2a01, 0x" << width << ", 0x" << height;
 		int col = 3;
 		for(int k = 0 ; k < width ; k++) {
 			for(int l = 0 ; l < height ; l++) {
@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 					col = 0;
 					cout << endl << "\t";
 				}
-				cout << ", 0x" << getPixel(image, k, l);
+				cout << hex << setw(4) <<  ", 0x" << (getPixel(image, k, l) >> 16);
 				col++;
 			}
 		}
