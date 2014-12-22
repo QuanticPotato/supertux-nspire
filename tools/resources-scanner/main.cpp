@@ -19,7 +19,7 @@ using namespace std;
 using namespace boost::filesystem;
 
 void scan_directory(path, ofstream&, string);
-void create_output_array(char *, ofstream&);
+void create_output_array(char *, ofstream&, string output_raw);
 void create_output_raw(string output_raw);
 string escape_filepath(path &filepath, string extension);
 
@@ -35,6 +35,8 @@ inline char separator() {
 // The number of characters to skip in the paths (i.e. the user specific part, such as /home ...)
 int path_offset = 0;
 string resource_maker_exe;
+// Wether it has to write "if" of "else if"
+bool firstLine = true;
 
 int main(int argc, char **argv) 
 {
@@ -54,12 +56,12 @@ cout << tmp << endl;
 		//return 0;
 	}
 
-	ofstream output_array;
-	create_output_array(argv[2], output_array);
-	if(!output_array)
-		return 0;
 	string output_raw = string(argv[3]);
 	create_output_raw(output_raw);
+	ofstream output_array;
+	create_output_array(argv[2], output_array, output_raw);
+	if(!output_array)
+		return 0;
 
 	path data(argv[1]);
 	path_offset = data.string().size();
@@ -79,6 +81,7 @@ cout << tmp << endl;
 		cout << "An error occured : " << e.what() << endl;
 	}
 
+	output_array << "\treturn 0;" << endl << "}" << endl;
 	output_array << endl << "#endif" << endl;
 	output_array.close();
 	system(((string)("echo >> " + output_raw)).c_str());
@@ -102,10 +105,15 @@ void scan_directory(path directory, ofstream &output_array, string output_raw)
 					string fileExtension = entry_path.extension().string().substr(1);
 					// For now, we only deal with the image files (Actually, only the PNG formats)
 					if(fileExtension == "png") {
-						//escape_filepath(entry_path, fileExtension);
-						string png_cmd = resource_maker_exe + " " + entry_path.string() + " " + escape_filepath(entry_path, fileExtension) + " >> " + output_raw; 
+						string label = escape_filepath(entry_path, fileExtension);
+						string png_cmd = resource_maker_exe + " " + entry_path.string() + " " + label + " >> " + output_raw; 
 						cout << "Proccess " << entry_path.filename() << endl;
 						system(png_cmd.c_str());
+
+						output_array << "\t" + (firstLine ? string("if") : string("else if"));
+						firstLine = false;
+						output_array << "(file == \"" << "data/" << entry_path.string().substr(path_offset) << "\")" << endl;
+						output_array << "\t\treturn " << label << ";" << endl;
 					}
 				} catch(out_of_range) {
 					// If the file has no extension ...
@@ -116,16 +124,18 @@ void scan_directory(path directory, ofstream &output_array, string output_raw)
 	}
 }
 
-void create_output_array(char * filepath, ofstream &output_array)
+void create_output_array(char * filepath, ofstream &output_array, string output_raw)
 {
 	output_array.open(filepath, ios::out | ios::trunc);
- 
 	if(!output_array) {
 		cout << "Cannot open " << filepath << " ... " << endl;
 		return;
 	}
 	output_array << "#ifndef __DATA_ARRAY__" << endl;
 	output_array << "#define __DATA_ARRAY__" << endl << endl;
+	output_array << "#include <string>" << endl << endl;
+	output_array << "#include \"" << output_raw << "\"" << endl << endl;
+	output_array << "unsigned short *getSpriteData(const std::string &file)" << endl << "{" << endl;
 }
 
 void create_output_raw(string output_raw)
