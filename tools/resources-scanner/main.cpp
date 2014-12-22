@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,36 +10,67 @@
  * 	- A "raw data" file : It contains the data contents writen in raw arrays
  *
  * You must give the data/ folder path (At the project root)
+ *
+ * If there is no "resoure-maker" in the PATH, you must give it in the last parameter.
+ *
  */
 
 using namespace std;
 using namespace boost::filesystem;
 
-void scan_directory(path, ofstream&, ofstream&);
+void scan_directory(path, ofstream&, string);
 void create_output_array(char *, ofstream&);
-void create_output_raw(char *, ofstream&);
+void create_output_raw(string output_raw);
+string escape_filepath(path &filepath, string extension);
+
+// Returns the file separator of the running OS
+inline char separator() {
+#ifdef __WIN32
+	return '\\';
+#else
+	return '/';
+#endif
+}
+
+// The number of characters to skip in the paths (i.e. the user specific part, such as /home ...)
+int path_offset = 0;
+string resource_maker_exe;
 
 int main(int argc, char **argv) 
 {
 	if(argc < 4) {
-		cout << "Usage : " << endl << "\tscanner <datadir> <output_array> <output_raw>" << endl;
+		cout << "Usage : " << endl << "\tscanner <datadir> <output_array> <output_raw> [ressource-maker]" << endl;
 		return 0;
 	}
+
+	resource_maker_exe = argc >= 5 ? string(argv[4]) : "resource-maker";
+	// Check the exe path is valid
+	string check_cmd = resource_maker_exe + " -magic_code";
+int tmp = system(check_cmd.c_str());
+cout << tmp << endl;
+	if(tmp != 42) {
+		if(argc >= 5) cout << resource_maker_exe << " : No such executable file !"<< endl;
+		else cout << "Cannot find resource-maker in PATH ! " << endl;
+		//return 0;
+	}
+
 	ofstream output_array;
 	create_output_array(argv[2], output_array);
 	if(!output_array)
 		return 0;
-	ofstream output_raw;
-	create_output_raw(argv[3], output_raw);
-	if(!output_raw) {
-		output_array.close();
-		return 0;
-	}
+	string output_raw = string(argv[3]);
+	create_output_raw(output_raw);
+
 	path data(argv[1]);
+	path_offset = data.string().size();
+	// If there is no slash at the end, we must be sure to skip it !
+	if(data.string().back() != '/')
+	       path_offset++;	
+
 	try {
 		if(exists(data)) {
 			if(is_directory(data)) {
-				scan_directory(data, output_array, output_raw);
+				scan_directory(data, output_array, string(argv[3]));
 			} else 
 				cout << data << " is not a directory !" << endl;
 		} else
@@ -46,24 +78,39 @@ int main(int argc, char **argv)
 	} catch(const filesystem_error& e) {
 		cout << "An error occured : " << e.what() << endl;
 	}
+
 	output_array << endl << "#endif" << endl;
 	output_array.close();
-	output_raw << endl << "#endif" << endl;
-	output_raw.close();
+	system(((string)("echo >> " + output_raw)).c_str());
+	system(((string)("echo \"#endif\" >> " + output_raw)).c_str());
 	return 0;
 }
 
-void scan_directory(path directory, ofstream &output_array, ofstream &output_raw) 
+void scan_directory(path directory, ofstream &output_array, string output_raw) 
 {
 	if(is_directory(directory)) {
+		cout << "Scanning   " << directory << "  ... " << endl;
 		directory_iterator end_dir;
 		for(directory_iterator dir_it(directory) ; dir_it != end_dir ; ++dir_it) {
 			directory_entry entry(*dir_it);
 			path entry_path(entry.path());
 			if(is_directory(entry_path)) {
 				scan_directory(entry_path, output_array, output_raw);
-			} else
-				cout << entry_path << endl;
+			} else {
+				try {
+				// The file type detection is based on the filename extension
+					string fileExtension = entry_path.extension().string().substr(1);
+					// For now, we only deal with the image files (Actually, only the PNG formats)
+					if(fileExtension == "png") {
+						//escape_filepath(entry_path, fileExtension);
+						string png_cmd = resource_maker_exe + " " + entry_path.string() + " " + escape_filepath(entry_path, fileExtension) + " >> " + output_raw; 
+						cout << "Proccess " << entry_path.filename() << endl;
+						system(png_cmd.c_str());
+					}
+				} catch(out_of_range) {
+					// If the file has no extension ...
+				}
+			}
 
 		}
 	}
@@ -81,13 +128,24 @@ void create_output_array(char * filepath, ofstream &output_array)
 	output_array << "#define __DATA_ARRAY__" << endl << endl;
 }
 
-void create_output_raw(char * filepath, ofstream &output_raw)
+void create_output_raw(string output_raw)
 {
-	output_raw.open(filepath, ios::out | ios::trunc);
-	if(!output_raw) {
-		cout << "Cannot open " << filepath << " ... " << endl;
-		return;
-	}
-	output_raw << "#ifndef __DATA_RAW__" << endl;
-	output_raw << "#define __DATA_RAW__" << endl << endl;
+	// We use the system pipes to avoid concurency problems ..
+	// This line truncate the file if it already exists
+	system(((string)("echo \"#ifndef __DATA_RAW__\" > " + output_raw)).c_str()); 
+	system(((string)("echo \"#define __DATA_RAW__\" >> " + output_raw)).c_str());
+	// Append two newlines
+	system(((string)("echo >> " + output_raw)).c_str());
+	system(((string)("echo >> " + output_raw)).c_str());
+}
+
+// Use the path_offset to only keep the relevant part.
+// Escape every '/' and '-' characters (With underscores '_')
+string escape_filepath(path &filepath, string extension)
+{
+	string escaped = filepath.string().substr(path_offset);
+	replace(escaped.begin(), escaped.end(), '-',  '_');
+	replace(escaped.begin(), escaped.end(), separator(), '_');
+	// Remove the file extension (Don't forget the . !
+	return escaped.substr(0, escaped.size() - extension.size() - 1);
 }

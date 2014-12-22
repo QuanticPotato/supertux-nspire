@@ -9,10 +9,20 @@ Uint32 getPixel(SDL_Surface *surface, int x, int y);
 
 int main(int argc, char **argv) 
 {
+	if(argc >= 2) {
+		string first_arg = string(argv[1]);
+		// This is a simple feature to be easily recognize by the scanner.
+		if(first_arg == "-magic_code")
+			return 44;
+		else if(first_arg == "--help" || first_arg == "-help" || first_arg == "-h" || first_arg == "--usage") {
+			cout << "Usage : " << endl << "\tresource-scanner img1 lbl1 img2 lbl2 ..." << endl << "\tWith img a filepath and lbl an identifier." << endl;
+			return 0;
+		}
+	}
 	for(int i = 1 ; i < argc ; i+=2) {
 		SDL_Surface *image = IMG_Load(argv[i]);
 		int width = image->w, height = image->h;
-		cout << "static unsigned short " << argv[i + 1] << "[] {" << endl;
+		cout << "static unsigned short " << argv[i + 1] << "[] = {" << endl;
 		cout << hex << "\t0x2a01, 0x" << width << ", 0x" << height;
 		int col = 3;
 		for(int k = 0 ; k < width ; k++) {
