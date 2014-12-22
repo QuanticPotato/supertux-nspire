@@ -12,8 +12,9 @@ int main(int argc, char **argv)
 	if(argc >= 2) {
 		string first_arg = string(argv[1]);
 		// This is a simple feature to be easily recognize by the scanner.
-		if(first_arg == "-magic_code")
-			return 44;
+		if(first_arg == "-magic_code") {
+			exit(42);
+		}
 		else if(first_arg == "--help" || first_arg == "-help" || first_arg == "-h" || first_arg == "--usage") {
 			cout << "Usage : " << endl << "\tresource-scanner img1 lbl1 img2 lbl2 ..." << endl << "\tWith img a filepath and lbl an identifier." << endl;
 			return 0;

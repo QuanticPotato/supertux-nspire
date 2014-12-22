@@ -48,12 +48,10 @@ int main(int argc, char **argv)
 	resource_maker_exe = argc >= 5 ? string(argv[4]) : "resource-maker";
 	// Check the exe path is valid
 	string check_cmd = resource_maker_exe + " -magic_code";
-int tmp = system(check_cmd.c_str());
-cout << tmp << endl;
-	if(tmp != 42) {
+	if((system(check_cmd.c_str()) >> 8) != 42) {
 		if(argc >= 5) cout << resource_maker_exe << " : No such executable file !"<< endl;
 		else cout << "Cannot find resource-maker in PATH ! " << endl;
-		//return 0;
+		return 0;
 	}
 
 	string output_raw = string(argv[3]);

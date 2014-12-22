@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# A short script to build the tool (i.e. link SDL and SDL_Image)
-# TODO : Use a Makefile !!
-
-g++ main.cpp -lSDL -lSDL_image
-mv a.out resource_maker
-
