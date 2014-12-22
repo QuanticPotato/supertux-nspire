@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# A short script to build the tool (i.e. link boost)
+# TODO : Use a Makefile !!
+
+g++ main.cpp -lboost_system -lboost_filesystem -g
+mv a.out scanner
+
