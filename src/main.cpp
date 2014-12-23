@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 	st_video_setup();
 	st_general_setup();
 	st_menu();
+	loadshared();
 
 	return 0;
 }

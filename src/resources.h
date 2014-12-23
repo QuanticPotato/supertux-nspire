@@ -1,8 +1,7 @@
+//  $Id: resources.h 844 2004-04-29 15:18:27Z rmcruz $
+//
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
-//
-//  Adaptation for the TI nspire calculator by
-// 	CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,37 +17,27 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef SUPERTUX_SCENE_H
-#define SUPERTUX_SCENE_H
-  
-#include <string>
+#ifndef SUPERTUX_RESOURCES_H
+#define SUPERTUX_RESOURCES_H
 
-#include "timer.h"
+class SpriteManager;
 
-#define FRAME_RATE 10 // 100 Frames per second (10ms)
+extern Surface* img_waves[3]; 
+extern Surface* img_water;
+extern Surface* img_pole;
+extern Surface* img_poletop;
+extern Surface* img_flag[2];
+extern Surface* img_cloud[2][4];
 
-// Player stats
-struct PlayerStatus
-{
-	int  score;
-	int  distros;
-	int  lives;
-	enum BonusType { NO_BONUS, GROWUP_BONUS, FLOWER_BONUS };
-	BonusType bonus;
+extern Surface* img_super_bkgd;
 
-	int  score_multiplier;
 
-	PlayerStatus();
+extern SpriteManager* sprite_manager;
 
-	void reset();
-};
+void loadshared();
+void unloadshared();
 
-std::string bonus_to_string(PlayerStatus::BonusType b);
-PlayerStatus::BonusType string_to_bonus(const std::string& str);
+#endif
 
-extern PlayerStatus player_status;
+/* EOF */
 
-extern float scroll_x;
-extern unsigned int global_frame_counter;
-
-#endif /*SUPERTUX_SCENE_H*/

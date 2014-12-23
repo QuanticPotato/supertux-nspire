@@ -36,6 +36,8 @@ Text *white_text;
 Text *white_small_text;
 Text *white_big_text;
 
+MouseCursor *mouse_cursor;
+
 bool debug_mode;
 bool show_fps;
 float game_speed = 1.0f;

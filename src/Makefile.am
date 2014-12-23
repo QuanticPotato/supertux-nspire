@@ -17,7 +17,26 @@ supertux_SOURCES = \
     lispreader.cpp \
     configfile.cpp \
     type.cpp \
-    data_manager.cpp
+    data_manager.cpp \
+    gameloop.cpp \
+    high_scores.cpp \
+    level.cpp \
+    player.cpp \
+    tile.cpp \
+    title.cpp \
+    worldmap.cpp \
+    badguy.cpp \
+    bitmask.cpp \
+    physic.cpp \
+    collision.cpp \
+    sprite.cpp \
+    world.cpp \
+    special.cpp \
+    particlesystem.cpp \
+    gameobjs.cpp \
+    resources.cpp \
+    mousecursor.cpp \
+    sprite_manager.cpp 
 
 all : all-am @EXE_NAME@
 

@@ -28,6 +28,7 @@
 
 #include "text.h"
 #include "menu.h"
+#include "mousecursor.h"
 
 extern std::string datadir;
 
@@ -42,6 +43,8 @@ extern Text *blue_text;
 extern Text *red_text;
 extern Text *green_text;
 extern Text *yellow_nums;
+
+extern MouseCursor *mouse_cursor;
 
 extern bool debug_mode;
 extern bool show_fps;

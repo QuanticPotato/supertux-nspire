@@ -282,9 +282,6 @@ void st_menu(void)
 	                      MNID_OPENGL);
 	options_menu->additem(MN_DEACTIVE, "Fullscreen", 0, 0,
 	                      MNID_FULLSCREEN);
-
-	options_menu->additem(MN_DEACTIVE, "Sound     ", false, 0, MNID_SOUND);
-	options_menu->additem(MN_DEACTIVE, "Music     ", false, 0, MNID_MUSIC);
 	
 	options_menu->additem(MN_TOGGLE, "Show FPS  ", show_fps, 0, MNID_SHOWFPS);
 	options_menu->additem(MN_GOTO, "Keyboard Setup", 0, options_keys_menu);
