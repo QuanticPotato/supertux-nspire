@@ -11,3 +11,5 @@ Makefile.in
 *.tns
 *.elf
 tags
+data_manager.cpp
+sprites.h

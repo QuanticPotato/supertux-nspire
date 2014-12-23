@@ -80,7 +80,6 @@ int main(int argc, char **argv)
 	}
 
 	output_array << "\treturn 0;" << endl << "}" << endl;
-	output_array << endl << "#endif" << endl;
 	output_array.close();
 	system(((string)("echo >> " + output_raw)).c_str());
 	system(((string)("echo \"#endif\" >> " + output_raw)).c_str());
@@ -129,10 +128,8 @@ void create_output_array(char * filepath, ofstream &output_array, string output_
 		cout << "Cannot open " << filepath << " ... " << endl;
 		return;
 	}
-	output_array << "#ifndef __DATA_ARRAY__" << endl;
-	output_array << "#define __DATA_ARRAY__" << endl << endl;
-	output_array << "#include <string>" << endl << endl;
-	output_array << "#include \"" << output_raw << "\"" << endl << endl;
+	// TODO : Parametrizable header filename !
+	output_array << "#include \"data_manager.h\"" << endl << endl << endl;
 	output_array << "unsigned short *getSpriteData(const std::string &file)" << endl << "{" << endl;
 }
 
