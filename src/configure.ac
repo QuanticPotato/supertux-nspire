@@ -115,6 +115,22 @@ fi
 AC_SUBST([NSPIRE_MAKE_PRG], $NSPIRE_MAKE_PRG)
 
 
+dnl ========== Check for build mode ==========================================
+
+# Check for debug mode
+AC_MSG_CHECKING(for debug mode)
+AC_ARG_ENABLE(debug,
+	      AC_HELP_STRING([--enable-debug], [enable debugging mode]),
+	      [ENABLE_DEBUG="$enableval"],
+	      [ENABLE_DEBUG="no"])
+if test "x${ENABLE_DEBUG}" != "xno" ; then
+	CXXFLAGS="$CXXFLAGS -DDEBUG -g"
+	AC_MSG_RESULT([enabled])
+else
+	AC_MSG_RESULT([disable])
+fi
+
+
 dnl Constants
 
 output_name=supertux

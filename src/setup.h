@@ -41,6 +41,7 @@
 #include <os.h>
 #include <libndls.h>
 
+#include "defines.h"
 #include "menu.h"
 #include "type.h"
 #include "defines.h"

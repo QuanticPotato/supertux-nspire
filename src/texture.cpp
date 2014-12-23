@@ -22,6 +22,8 @@
 #include "texture.h"
 #include "globals.h"
 
+#include "data_manager.h"
+
 Surface::Surfaces Surface::surfaces;
 
 SurfaceData::SurfaceData(SDL_Surface *temp, int use_alpha_)
@@ -139,8 +141,9 @@ Surface::~Surface()
 
 void Surface::reload_all()
 {
-	for (Surfaces::iterator i = surfaces.begin(); i != surfaces.end(); ++i)
+	for (Surfaces::iterator i = surfaces.begin(); i != surfaces.end(); ++i) {
 		(*i)->reload();
+	}
 }
 
 void Surface::debug_check()
@@ -261,25 +264,10 @@ sdl_surface_part_from_file(const std::string &file, int x, int y, int w, int h,
 SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 {
 	SDL_Surface *sdl_surface;
-	SDL_Surface *temp;
 
-	temp = IMG_Load(file.c_str());
-
-	if (temp == NULL)
-		st_abort("Can't load", file);
-
-	if (use_alpha == IGNORE_ALPHA)
-		sdl_surface = SDL_DisplayFormat(temp);
-	else
-		sdl_surface = SDL_DisplayFormatAlpha(temp);
-
-	if (sdl_surface == NULL)
-		st_abort("Can't covert to display format", file);
-
-	if (use_alpha == IGNORE_ALPHA)
-		SDL_SetAlpha(sdl_surface, 0, 0);
-
-	SDL_FreeSurface(temp);
+	DEBUG_START("\tLoad %s", file.c_str())
+	sdl_surface = nSDL_LoadImage(getSpriteData(file));
+	DEBUG_DONE()
 
 	return sdl_surface;
 }

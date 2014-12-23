@@ -1,6 +1,5 @@
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
-//
+//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com> //
 //  Adaptation for the TI nspire calculator by
 //      CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
@@ -24,8 +23,8 @@
 /* Screen proprities: */
 /* Don't use this to test for the actual screen sizes. Use screen->w/h
  * instead! */
-#define SCREEN_W 640
-#define SCREEN_H 480
+#define SCREEN_W 320
+#define SCREEN_H 240
 
 /* Does the given file exist and is it accessible? */
 int faccessible(const char *filename)
@@ -256,6 +255,7 @@ void st_directory_setup(void)
 /* Create and setup menus. */
 void st_menu(void)
 {
+	DEBUG_START("Setup menu", 0);
 	main_menu      = new Menu();
 	options_menu   = new Menu();
 	options_keys_menu     = new Menu();
@@ -339,6 +339,8 @@ void st_menu(void)
 	worldmap_menu->additem(MN_ACTION, "Quit Game", 0, 0, MNID_QUITWORLDMAP);
 
 	highscore_menu->additem(MN_TEXTFIELD, "Enter your name:", 0, 0);
+
+	DEBUG_DONE()
 }
 
 void update_load_save_game_menu(Menu *pmenu)
@@ -401,35 +403,23 @@ void process_options_menu(void)
 void st_general_setup(void)
 {
 	/* Seed random number generator: */
-
 	srand(SDL_GetTicks());
 
 	/* Unicode needed for input handling: */
-
 	SDL_EnableUNICODE(1);
 
+	fprintf(stdout, "[Info] Load letter bitmaps .. \n");
 	/* Load global images: */
-
-	black_text  = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT,
-	                       16, 18);
-	gold_text    = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT,
-	                        16, 18);
-	silver_text = new Text(datadir + "/images/status/letters-silver.png", TEXT_TEXT,
-	                       16, 18);
-	blue_text    = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT,
-	                        16, 18);
-	red_text        = new Text(datadir + "/images/status/letters-red.png",
-	                           TEXT_TEXT, 16, 18);
-	green_text  = new Text(datadir + "/images/status/letters-green.png", TEXT_TEXT,
-	                       16, 18);
-	white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT,
-	                       16, 18);
-	white_small_text = new Text(datadir + "/images/status/letters-white-small.png",
-	                            TEXT_TEXT, 8, 9);
-	white_big_text   = new Text(datadir + "/images/status/letters-white-big.png",
-	                            TEXT_TEXT, 20, 22);
-	yellow_nums = new Text(datadir + "/images/status/numbers.png", TEXT_NUM, 32,
-	                       32);
+	black_text  = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16, 18);
+	gold_text    = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16, 18);
+	silver_text = new Text(datadir + "/images/status/letters-silver.png", TEXT_TEXT, 16, 18);
+	blue_text    = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16, 18);
+	red_text        = new Text(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16, 18);
+	green_text  = new Text(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16, 18);
+	white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16, 18);
+	white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8, 9);
+	white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20, 22);
+	yellow_nums = new Text(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
 	/* Load GUI/menu images: */
 	checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
@@ -438,6 +428,7 @@ void st_general_setup(void)
 	back = new Surface(datadir + "/images/status/back.png", USE_ALPHA);
 	arrow_left = new Surface(datadir + "/images/icons/left.png", USE_ALPHA);
 	arrow_right = new Surface(datadir + "/images/icons/right.png", USE_ALPHA);
+	fprintf(stdout, "[Info] DONE.. \n");
 }
 
 void st_general_free(void)
@@ -487,12 +478,13 @@ void st_video_setup(void)
 	Surface::reload_all();
 
 	/* Set window manager stuff: */
-	SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
+	//SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
 }
 
 void st_video_setup_sdl(void)
 {
-	screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	fprintf(stdout, "[Info] SDL : SetVideoMode ..  ");
+	screen = SDL_SetVideoMode(320 , 240 , 16 , SDL_SWSURFACE);
 
 	if (screen == NULL) {
 		fprintf(stderr,
@@ -500,7 +492,8 @@ void st_video_setup_sdl(void)
 		        "The Simple DirectMedia error that occured was:\n"
 		        "%s\n\n", SDL_GetError());
 		exit(1);
-	}
+	} else 
+		fprintf(stdout, " OK. \n");
 }
 
 /* --- SHUTDOWN --- */

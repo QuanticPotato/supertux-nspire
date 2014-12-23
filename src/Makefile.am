@@ -16,7 +16,8 @@ supertux_SOURCES = \
     timer.cpp \
     lispreader.cpp \
     configfile.cpp \
-    type.cpp
+    type.cpp \
+    data_manager.cpp
 
 all : all-am @EXE_NAME@
 

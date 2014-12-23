@@ -95,11 +95,27 @@ enum DyingType {
 /* Debugging */
 
 #ifdef DEBUG
+
+// Print a single message in the console
 #define DEBUG_MSG( msg ) { \
-		printf( msg ); printf("\n"); \
-	}
+	printf( "[INFO] " ); printf( msg ); printf("\n"); \
+}
+
+/* Print a loading message like :  "[INFO] Loading image ...    OK"
+ * Usage :
+ * 	DEBUG_START("Loading image")
+ * 	DEBUG_DONE()
+ */
+#define DEBUG_START(msg,args) {\
+	printf( "[INFO] " ); fprintf( stdout , msg , args ); printf(" ... "); fflush(stdout); \
+}
+#define DEBUG_DONE() {\
+	printf("   OK\n"); \
+}
 #else
 #define DEBUG_MSG( msg ) {}
+#define DEBUG_START( msg, args) {}
+#define DEBUG_DONE() {}
 #endif
 
 #endif
