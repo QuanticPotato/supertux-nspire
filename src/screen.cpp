@@ -2,7 +2,7 @@
 //  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
 //
 //  Adaptation for the TI nspire calculator by
-// 	CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -204,11 +204,11 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 
 	if (a != 255) {
 		temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h,
-					    screen->format->BitsPerPixel,
-					    screen->format->Rmask,
-					    screen->format->Gmask,
-					    screen->format->Bmask,
-					    screen->format->Amask);
+		                            screen->format->BitsPerPixel,
+		                            screen->format->Rmask,
+		                            screen->format->Gmask,
+		                            screen->format->Bmask,
+		                            screen->format->Amask);
 
 
 		src.x = 0;

@@ -2,7 +2,7 @@
 //  Copyright (C) 2004 Michael George <mike@georgetech.com>
 //
 //  Adaptation for the TI nspire calculator by
-// 	CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License

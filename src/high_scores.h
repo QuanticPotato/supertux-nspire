@@ -1,7 +1,8 @@
-//  $Id: high_scores.h 585 2004-04-20 11:09:34Z grumbel $
-// 
 //  SuperTux
 //  Copyright (C) 2004 Adam Czachorowski <gislan@o2.pl>
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA

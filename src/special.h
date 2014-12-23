@@ -1,7 +1,8 @@
-//  $Id: special.h 922 2004-05-02 21:28:32Z tobgle $
-//
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -31,10 +32,10 @@
 /* Upgrade types: */
 
 enum UpgradeKind {
-  UPGRADE_GROWUP,
-  UPGRADE_ICEFLOWER,
-  UPGRADE_HERRING,
-  UPGRADE_1UP
+	UPGRADE_GROWUP,
+	UPGRADE_ICEFLOWER,
+	UPGRADE_HERRING,
+	UPGRADE_1UP
 };
 
 void load_special_gfx();
@@ -42,48 +43,52 @@ void free_special_gfx();
 
 class Upgrade : public GameObject
 {
-public:
-  UpgradeKind kind;
-  Direction  dir;
-  Physic physic;
+	public:
+		UpgradeKind kind;
+		Direction  dir;
+		Physic physic;
 
-  void init(float x, float y, Direction dir, UpgradeKind kind);
-  void action(double frame_ratio);
-  void draw();
-  void collision(void* p_c_object, int c_object, CollisionType type);
-  std::string type() { return "Upgrade"; };
-  
-  ~Upgrade() {};
+		void init(float x, float y, Direction dir, UpgradeKind kind);
+		void action(double frame_ratio);
+		void draw();
+		void collision(void *p_c_object, int c_object, CollisionType type);
+		std::string type() {
+			return "Upgrade";
+		};
 
-private:
-  /** removes the Upgrade from the global upgrade list. Note that after this
-   * call the class doesn't exist anymore! So don't use any member variables
-   * anymore then
-   */
-  void remove_me();
+		~Upgrade() {};
 
-  void bump(Player* player);
+	private:
+		/** removes the Upgrade from the global upgrade list. Note that after this
+		 * call the class doesn't exist anymore! So don't use any member variables
+		 * anymore then
+		 */
+		void remove_me();
+
+		void bump(Player *player);
 };
 
 class Bullet : public GameObject
 {
- public:
-  int life_count;
-  base_type base;
-  base_type old_base;
-  
-  void init(float x, float y, float xm, Direction dir);
-  void action(double frame_ratio);
-  void draw();
-  void collision(int c_object);
-  std::string type() { return "Bullet"; };
+	public:
+		int life_count;
+		base_type base;
+		base_type old_base;
 
-private:
-  /** removes the Upgrade from the global upgrade list. Note that after this
-   * call the class doesn't exist anymore! So don't use any member variables
-   * anymore then
-   */
-  void remove_me();
+		void init(float x, float y, float xm, Direction dir);
+		void action(double frame_ratio);
+		void draw();
+		void collision(int c_object);
+		std::string type() {
+			return "Bullet";
+		};
+
+	private:
+		/** removes the Upgrade from the global upgrade list. Note that after this
+		 * call the class doesn't exist anymore! So don't use any member variables
+		 * anymore then
+		 */
+		void remove_me();
 };
 
 #endif /*SUPERTUX_SPECIAL_H*/

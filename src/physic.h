@@ -1,5 +1,5 @@
 //  $Id: physic.h 597 2004-04-20 17:58:12Z grumbel $
-// 
+//
 //  SuperTux
 //  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -26,50 +26,50 @@
   */
 class Physic
 {
-public:
-    Physic();
-    ~Physic();
+	public:
+		Physic();
+		~Physic();
 
-    /** resets all velocities and accelerations to 0 */
-    void reset();
+		/** resets all velocities and accelerations to 0 */
+		void reset();
 
-    /** sets velocity to a fixed value */
-    void set_velocity(float vx, float vy);
+		/** sets velocity to a fixed value */
+		void set_velocity(float vx, float vy);
 
-    void set_velocity_x(float vx);
-    void set_velocity_y(float vy);
+		void set_velocity_x(float vx);
+		void set_velocity_y(float vy);
 
-    /** velocities invertion */
-    void inverse_velocity_x();
-    void inverse_velocity_y();
+		/** velocities invertion */
+		void inverse_velocity_x();
+		void inverse_velocity_y();
 
-    float get_velocity_x();
-    float get_velocity_y();
-    
-    /** sets acceleration applied to the object. (Note that gravity is
-     * eventually added to the vertical acceleration)
-     */
-    void set_acceleration(float ax, float ay);
+		float get_velocity_x();
+		float get_velocity_y();
 
-    void set_acceleration_x(float ax);
-    void set_acceleration_y(float ay);
+		/** sets acceleration applied to the object. (Note that gravity is
+		 * eventually added to the vertical acceleration)
+		 */
+		void set_acceleration(float ax, float ay);
 
-    float get_acceleration_x();
-    float get_acceleration_y();
+		void set_acceleration_x(float ax);
+		void set_acceleration_y(float ay);
 
-    /** enables or disables handling of gravity */
-    void enable_gravity(bool gravity_enabled);
+		float get_acceleration_x();
+		float get_acceleration_y();
 
-    /** applies the physical simulation to given x and y coordinates */
-    void apply(float frame_ratio, float &x, float &y); 
+		/** enables or disables handling of gravity */
+		void enable_gravity(bool gravity_enabled);
 
-private:
-    /// horizontal and vertical acceleration
-    float ax, ay;
-    /// horizontal and vertical velocity
-    float vx, vy;
-    /// should we respect gravity in out calculations?
-    bool gravity_enabled;
+		/** applies the physical simulation to given x and y coordinates */
+		void apply(float frame_ratio, float &x, float &y);
+
+	private:
+		/// horizontal and vertical acceleration
+		float ax, ay;
+		/// horizontal and vertical velocity
+		float vx, vy;
+		/// should we respect gravity in out calculations?
+		bool gravity_enabled;
 };
 
 #endif /*SUPERTUX_PHYSIC_H*/

@@ -1,7 +1,8 @@
-//  $Id: sprite_manager.h 737 2004-04-26 12:21:23Z grumbel $
-// 
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -25,18 +26,18 @@
 
 class SpriteManager
 {
- private:
-  typedef std::map<std::string, Sprite*> Sprites;
-  Sprites sprites;
- public:
-  SpriteManager(const std::string& filename);
-  ~SpriteManager();
-  
-  void    load_resfile(const std::string& filename);
-  /** loads a sprite.
-   * WARNING: You must not delete the returned object.
-   */
-  Sprite* load(const std::string& name);
+	private:
+		typedef std::map<std::string, Sprite *> Sprites;
+		Sprites sprites;
+	public:
+		SpriteManager(const std::string &filename);
+		~SpriteManager();
+
+		void    load_resfile(const std::string &filename);
+		/** loads a sprite.
+		 * WARNING: You must not delete the returned object.
+		 */
+		Sprite *load(const std::string &name);
 };
 
 #endif

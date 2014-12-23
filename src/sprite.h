@@ -1,7 +1,8 @@
-//  $Id: sprite.h 737 2004-04-26 12:21:23Z grumbel $
-// 
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -27,41 +28,43 @@
 
 class Sprite
 {
- private:
-  std::string name;
+	private:
+		std::string name;
 
-  int x_hotspot;
-  int y_hotspot;
+		int x_hotspot;
+		int y_hotspot;
 
-  /** Frames per second */
-  float fps;
+		/** Frames per second */
+		float fps;
 
-  /** Number of seconds that a frame is displayed until it is switched
-      to the next frame */
-  float frame_delay;
+		/** Number of seconds that a frame is displayed until it is switched
+		    to the next frame */
+		float frame_delay;
 
-  float time;
+		float time;
 
-  std::vector<Surface*> surfaces;
+		std::vector<Surface *> surfaces;
 
-  void init_defaults();
- public:
-  /** cur has to be a pointer to data in the form of ((x-hotspot 5)
-      (y-hotspot 10) ...) */
-  Sprite(lisp_object_t* cur);
-  ~Sprite();
-  
-  void reset();
+		void init_defaults();
+	public:
+		/** cur has to be a pointer to data in the form of ((x-hotspot 5)
+		    (y-hotspot 10) ...) */
+		Sprite(lisp_object_t *cur);
+		~Sprite();
 
-  /** Update the sprite and process to the next frame */
-  void update(float delta);
-  void draw(float x, float y);
-  void draw_part(float sx, float sy, float x, float y, float w, float h);
-  int get_current_frame() const;
+		void reset();
 
-  std::string get_name() const { return name; } 
-  int get_width() const;
-  int get_height() const;
+		/** Update the sprite and process to the next frame */
+		void update(float delta);
+		void draw(float x, float y);
+		void draw_part(float sx, float sy, float x, float y, float w, float h);
+		int get_current_frame() const;
+
+		std::string get_name() const {
+			return name;
+		}
+		int get_width() const;
+		int get_height() const;
 };
 
 #endif

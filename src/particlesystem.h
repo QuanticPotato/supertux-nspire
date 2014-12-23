@@ -1,7 +1,8 @@
-//  $Id: particlesystem.h 585 2004-04-20 11:09:34Z grumbel $
-// 
 //  SuperTux
 //  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -40,64 +41,64 @@
  */
 class ParticleSystem
 {
-public:
-    ParticleSystem();
-    virtual ~ParticleSystem();
-    
-    void draw(float scrollx, float scrolly, int layer);
+	public:
+		ParticleSystem();
+		virtual ~ParticleSystem();
 
-    virtual void simulate(float elapsed_time) = 0;
+		void draw(float scrollx, float scrolly, int layer);
 
-protected:
-    class Particle
-    {
-    public:
-        virtual ~Particle()
-        { }
+		virtual void simulate(float elapsed_time) = 0;
 
-        float x, y;
-        int layer;
-        Surface* texture;
-    };
-    
-    std::vector<Particle*> particles;
-    float virtual_width, virtual_height;
+	protected:
+		class Particle
+		{
+			public:
+				virtual ~Particle() {
+				}
+
+				float x, y;
+				int layer;
+				Surface *texture;
+		};
+
+		std::vector<Particle *> particles;
+		float virtual_width, virtual_height;
 };
 
 class SnowParticleSystem : public ParticleSystem
 {
-public:
-    SnowParticleSystem();
-    virtual ~SnowParticleSystem();
+	public:
+		SnowParticleSystem();
+		virtual ~SnowParticleSystem();
 
-    virtual void simulate(float elapsed_time);
-    
-private:
-    class SnowParticle : public Particle
-    {
-    public:
-        float speed;
-    };
-    
-    Surface* snowimages[3];
+		virtual void simulate(float elapsed_time);
+
+	private:
+		class SnowParticle : public Particle
+		{
+			public:
+				float speed;
+		};
+
+		Surface *snowimages[3];
 };
 
 class CloudParticleSystem : public ParticleSystem
 {
-public:
-    CloudParticleSystem();
-    virtual ~CloudParticleSystem();
+	public:
+		CloudParticleSystem();
+		virtual ~CloudParticleSystem();
 
-    virtual void simulate(float elapsed_time);
-    
-private:
-    class CloudParticle : public Particle
-    {
-    public:
-        float speed;
-    };
-    
-    Surface* cloudimage;
+		virtual void simulate(float elapsed_time);
+
+	private:
+		class CloudParticle : public Particle
+		{
+			public:
+				float speed;
+		};
+
+		Surface *cloudimage;
 };
 
 #endif

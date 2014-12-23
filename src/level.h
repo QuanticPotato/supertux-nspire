@@ -1,7 +1,8 @@
-//  $Id: level.h 1032 2004-05-07 23:09:53Z rmcruz $
-// 
 //  SuperTux
 //  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//
+//  Adaptation for the TI nspire calculator by
+//  CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +13,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -28,108 +29,109 @@
 
 class Tile;
 
-/** This type holds meta-information about a level-subset. 
+/** This type holds meta-information about a level-subset.
     It could be extended to handle manipulation of subsets. */
 class LevelSubset
-  {
-  public:
-    LevelSubset();
-    ~LevelSubset();
+{
+	public:
+		LevelSubset();
+		~LevelSubset();
 
-    static void create(const std::string& subset_name);
-    void load(char *subset);
-    void save();
+		static void create(const std::string &subset_name);
+		void load(char *subset);
+		void save();
 
-    std::string name;
-    std::string title;
-    std::string description;
-    Surface* image;
-    int levels;
- 
-  private:
-    void parse(lisp_object_t* cursor);
-  };
+		std::string name;
+		std::string title;
+		std::string description;
+		Surface *image;
+		int levels;
+
+	private:
+		void parse(lisp_object_t *cursor);
+};
 
 #define LEVEL_NAME_MAX 20
 
 
 enum TileMapType {
- TM_BG,
- TM_IA,
- TM_FG
- };
-
-struct ResetPoint
-{
-  int x;
-  int y;
+	TM_BG,
+	TM_IA,
+	TM_FG
 };
 
-class Level 
+struct ResetPoint {
+	int x;
+	int y;
+};
+
+class Level
 {
- public:
-  Surface* img_bkgd;
+	public:
+		Surface *img_bkgd;
 
-  std::string name;
-  std::string author;
-  std::string bkgd_image;
-  std::string particle_system;
-  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
-  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
-  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
-  int time_left;
-  Color bkgd_top;
-  Color bkgd_bottom;
-  int width;
-  int bkgd_speed;
-  int start_pos_x;
-  int start_pos_y;
-  float gravity;
-  bool back_scrolling;
-  float hor_autoscroll_speed;
+		std::string name;
+		std::string author;
+		std::string bkgd_image;
+		std::string particle_system;
+		std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
+		std::vector<unsigned int>
+		ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
+		std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
+		int time_left;
+		Color bkgd_top;
+		Color bkgd_bottom;
+		int width;
+		int bkgd_speed;
+		int start_pos_x;
+		int start_pos_y;
+		float gravity;
+		bool back_scrolling;
+		float hor_autoscroll_speed;
 
-  std::vector<BadGuyData> badguy_data;
+		std::vector<BadGuyData> badguy_data;
 
-  /** A collection of points to which Tux can be reset after a lost live */
-  std::vector<ResetPoint> reset_points;
- public:
-  Level();
-  Level(const std::string& subset, int level);
-  Level(const std::string& filename);
-  ~Level();
+		/** A collection of points to which Tux can be reset after a lost live */
+		std::vector<ResetPoint> reset_points;
+	public:
+		Level();
+		Level(const std::string &subset, int level);
+		Level(const std::string &filename);
+		~Level();
 
-  /** Will the Level structure with default values */
-  void init_defaults();
-  
-  /** Cleanup the level struct from allocated tile data and such */
-  void cleanup();
+		/** Will the Level structure with default values */
+		void init_defaults();
 
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& subset, int level);
+		/** Cleanup the level struct from allocated tile data and such */
+		void cleanup();
 
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& filename);
+		/** Load data for this level:
+		    Returns -1, if the loading of the level failed. */
+		int  load(const std::string &subset, int level);
 
-  void load_gfx();
+		/** Load data for this level:
+		    Returns -1, if the loading of the level failed. */
+		int  load(const std::string &filename);
 
-  void save(const std::string& subset, int level);
+		void load_gfx();
 
-  /** Edit a piece of the map! */
-  void change(float x, float y, int tm, unsigned int c);
+		void save(const std::string &subset, int level);
 
-  /** Resize the level to a new width */
-  void change_size (int new_width);
+		/** Edit a piece of the map! */
+		void change(float x, float y, int tm, unsigned int c);
 
-  /** Return the id of the tile at position x/y */
-  unsigned int gettileid(float x, float y) const;
-  /** returns the id of the tile at position x,y
-   * (these are logical and not pixel coordinates)
-   */
-  unsigned int get_tile_at(int x, int y) const;
+		/** Resize the level to a new width */
+		void change_size(int new_width);
 
-  void load_image(Surface** ptexture, std::string theme, const char * file, int use_alpha);
+		/** Return the id of the tile at position x/y */
+		unsigned int gettileid(float x, float y) const;
+		/** returns the id of the tile at position x,y
+		 * (these are logical and not pixel coordinates)
+		 */
+		unsigned int get_tile_at(int x, int y) const;
+
+		void load_image(Surface **ptexture, std::string theme, const char *file,
+		                int use_alpha);
 };
 
 #endif /*SUPERTUX_LEVEL_H*/
