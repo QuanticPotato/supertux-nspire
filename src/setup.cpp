@@ -19,6 +19,7 @@
 
 #include "setup.h"
 #include "globals.h"
+#include "gameloop.h"
 
 /* Screen proprities: */
 /* Don't use this to test for the actual screen sizes. Use screen->w/h
@@ -335,7 +336,6 @@ void st_menu(void)
 
 void update_load_save_game_menu(Menu *pmenu)
 {
-	/* TODO
 	for (int i = 2; i < 7; ++i) {
 		// FIXME: Insert a real savegame struct/class here instead of
 		// doing string vodoo
@@ -343,12 +343,10 @@ void update_load_save_game_menu(Menu *pmenu)
 		pmenu->item[i].kind = MN_ACTION;
 		pmenu->item[i].change_text(tmp.c_str());
 	}
-	*/
 }
 
 bool process_load_game_menu()
 {
-	/* TODO
 	int slot = load_game_menu->check();
 
 	if (slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION) {
@@ -376,7 +374,6 @@ bool process_load_game_menu()
 		return true;
 	} else
 		return false;
-	*/
 }
 
 /* Handle changes made to global settings in the options menu. */

@@ -23,8 +23,10 @@
 #define SUPERTUX_TEXT_H
 
 #include <string>
+#include <sstream>
 #include "texture.h"
 #include "screen.h"
+#include "text_files.h"
 
 void display_text_file(const std::string &file, const std::string &surface,
                        float scroll_speed);

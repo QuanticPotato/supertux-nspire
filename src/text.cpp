@@ -235,31 +235,36 @@ void display_text_file(const std::string &file, const std::string &surface,
 void display_text_file(const std::string &file, Surface *surface,
                        float scroll_speed)
 {
+	DEBUG_MSG(std::string("Display " + file + " ..").c_str())
 	int done;
 	float scroll;
 	float speed;
-	int y;
-	int length;
-	FILE *fi;
-	char temp[1024];
+	int y, length;
 	string_list_type names;
-	char filename[1024];
 	string_list_init(&names);
-	sprintf(filename, "%s/%s", datadir.c_str(), file.c_str());
-	if ((fi = fopen(filename, "r")) != NULL) {
-		while (fgets(temp, sizeof(temp), fi) != NULL) {
-			temp[strlen(temp) - 1] = '\0';
-			string_list_add_item(&names, temp);
-		}
-		fclose(fi);
-	} else {
+	std::string fileContent = "";
+	if(file == "intro.txt")
+		fileContent = std::string(file_intro_txt);
+	else if(file == "CREDITS")
+		fileContent = std::string(file_CREDITS_txt);
+	else if(file == "extro-bonus.txt")
+		fileContent = std::string(file_extro_bonus_txt);
+	else if(file == "extro-bonus2.txt")
+		fileContent = std::string(file_extro_bonus2_txt);
+	else {
 		string_list_add_item(&names, "File was not found!");
-		string_list_add_item(&names, filename);
+		string_list_add_item(&names, file.c_str());
 		string_list_add_item(&names, "Shame on the guy, who");
 		string_list_add_item(&names, "forgot to include it");
 		string_list_add_item(&names, "in your SuperTux distribution.");
 	}
-
+	if(fileContent != "") {
+		std::stringstream linesstream(fileContent);
+		std::string line;
+		while(std::getline(linesstream, line, '\n')) {
+			string_list_add_item(&names, line.c_str());
+		}
+	}
 
 	scroll = 0;
 	speed = scroll_speed / 50;
@@ -353,5 +358,7 @@ void display_text_file(const std::string &file, Surface *surface,
 
 	SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 	Menu::set_current(main_menu);
+
+	DEBUG_MSG("DONE")
 }
 

@@ -48,13 +48,12 @@
 #include "screen.h"
 #include "texture.h"
 #include "menu.h"
-//#include "gameloop.h"
 #include "configfile.h"
 #include "scene.h"
-//#include "worldmap.h"
-//#include "ressources.h"
-//#include "intro.h"
-//#include "player.h"
+#include "worldmap.h"
+#include "resources.h"
+#include "intro.h"
+#include "player.h"
 
 #define SUPERTUX_DIRECTORY "supertux"
 

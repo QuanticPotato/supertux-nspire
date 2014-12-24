@@ -20,6 +20,8 @@
 
 #include "screen.h"
 #include "globals.h"
+#include "setup.h"
+#include "texture.h"
 
 /* Needed for line calculations */
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))

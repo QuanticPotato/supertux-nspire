@@ -34,12 +34,12 @@ void string_list_init(string_list_type *pstring_list)
 char *string_list_active(string_list_type *pstring_list)
 {
 	if (pstring_list == NULL)
-		return "";
+		return (char*)std::string("").c_str();
 
 	if (pstring_list->active_item != -1)
 		return pstring_list->item[pstring_list->active_item];
 	else
-		return "";
+		return (char*)std::string("").c_str();
 }
 
 void string_list_add_item(string_list_type *pstring_list, const  char *str)

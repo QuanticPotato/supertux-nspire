@@ -36,7 +36,8 @@ supertux_SOURCES = \
     gameobjs.cpp \
     resources.cpp \
     mousecursor.cpp \
-    sprite_manager.cpp 
+    sprite_manager.cpp \
+    intro.cpp
 
 all : all-am @EXE_NAME@
 
