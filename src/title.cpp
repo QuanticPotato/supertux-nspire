@@ -250,15 +250,15 @@ void title(void)
 	/* --- Main title loop: --- */
 	frame = 0;
 
-	/* Draw the title background: */
-	bkg_title->draw_bg();
-
 	update_time = st_get_ticks();
 	random_timer.start(rand() % 2000 + 2000);
 
 	Menu::set_current(main_menu);
 	while (Menu::current()) {
-		// if we spent to much time on a menu entry
+		/* Draw the title background: */
+		bkg_title->draw_bg();
+
+		//if we spent to much time on a menu entry
 		if ((update_time - last_update_time) > 1000)
 			update_time = last_update_time = st_get_ticks();
 
@@ -284,7 +284,7 @@ void title(void)
 		//draw_demo(&session, frame_ratio);
 
 		if (Menu::current() == main_menu) {
-			logo->draw(160, 30);
+			logo->draw(87, 5);
 		}
 
 		white_small_text->draw(" SuperTux " VERSION "\n"

@@ -124,7 +124,7 @@ unsigned short getPixel(SDL_Surface *surface, int x, int y)
 	 * We discard the alpha level, it's just transparent or not.
 	 */
 	if(a == 0) // Transparent pixel
-		return 0x7c1f;  // 1111100000011111
+		return 0xf81f;  // 1111100000011111
 	unsigned short red = (((unsigned char)r) >> 3) << 11;
 	unsigned short green = (((unsigned char)g) >> 2) << 5;
 	unsigned short blue = ((unsigned char)b) >> 3;
