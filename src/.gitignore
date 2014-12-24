@@ -13,3 +13,4 @@ Makefile.in
 tags
 data_manager.cpp
 sprites.h
+text_files.h

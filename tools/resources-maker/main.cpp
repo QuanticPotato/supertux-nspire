@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 
 #include "SDL/SDL_image.h"
 
@@ -16,28 +17,52 @@ int main(int argc, char **argv)
 			exit(42);
 		}
 		else if(first_arg == "--help" || first_arg == "-help" || first_arg == "-h" || first_arg == "--usage") {
-			cout << "Usage : " << endl << "\tresource-scanner img1 lbl1 img2 lbl2 ..." << endl << "\tWith img a filepath and lbl an identifier." << endl;
+			cout << "Usage : " << endl << "\tresource-scanner img img1 lbl1 [img2 lbl2] ..." << endl << "\tresource-scanner txt txt1 lbl1 [txt2 lbl2] ..." << endl;
 			return 0;
 		}
-	}
-	for(int i = 1 ; i < argc ; i+=2) {
-		SDL_Surface *image = IMG_Load(argv[i]);
-		int width = image->w, height = image->h;
-		cout << "static unsigned short " << argv[i + 1] << "[] = {" << endl;
-		cout << hex << "\t0x2a01, 0x" << width << ", 0x" << height;
-		int col = 3;
-		for(int k = 0 ; k < width ; k++) {
-			for(int l = 0 ; l < height ; l++) {
-				if(col % 8 == 0) {
-					col = 0;
-					cout << endl << "\t";
+		if(first_arg == "img") {
+			for(int i = 2 ; i < argc ; i+=2) {
+				SDL_Surface *image = IMG_Load(argv[i]);
+				int width = image->w, height = image->h;
+				cout << "static unsigned short " << argv[i + 1] << "[] = {" << endl;
+				cout << hex << "\t0x2a01, 0x" << width << ", 0x" << height;
+				int col = 3;
+				for(int k = 0 ; k < width ; k++) {
+					for(int l = 0 ; l < height ; l++) {
+						if(col % 8 == 0) {
+							col = 0;
+							cout << endl << "\t";
+						}
+						cout << hex << setw(4) <<  ", 0x" << (getPixel(image, k, l) >> 16);
+						col++;
+					}
 				}
-				cout << hex << setw(4) <<  ", 0x" << (getPixel(image, k, l) >> 16);
-				col++;
+				cout << endl << "};" << endl << endl << endl;
+				SDL_FreeSurface(image);	
+			}
+		} else if(first_arg == "txt") {
+			// The txt option only escape the newlines and quotes
+			for(int i = 2 ; i < argc ; i+=2) {
+				// First, be sure we can open the file ..
+				ifstream input_file(argv[i], ios::in);
+				if(!input_file)
+					continue;
+				cout << "static const char *file_" << string(argv[i+1]) << " = \"";
+				string line;
+				while(getline(input_file, line)) {
+					for(int j = 0 ; j < line.size() ; j++) {
+						if(line.at(j) == '\"')
+							cout << "\\\"";
+						else if(line.at(j) == EOF)
+							; // Do not copy it !
+						else
+							cout << line.at(j);
+					}	
+					cout << "\\n\\" << endl;
+				}
+				cout << "\";" << endl << endl;
 			}
 		}
-		cout << endl << "};" << endl << endl << endl;
-		SDL_FreeSurface(image);	
 	}
 }
 

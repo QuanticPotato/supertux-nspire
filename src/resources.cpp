@@ -40,9 +40,9 @@ SpriteManager *sprite_manager = 0;
 void loadshared()
 {
 	int i;
+	sprite_manager = new SpriteManager();
 
-	sprite_manager = new SpriteManager(datadir + "/supertux.strf");
-
+	DEBUG_MSG("Load shared data  ..")
 	/* Tuxes: */
 	smalltux_star = sprite_manager->load("smalltux-star");
 	largetux_star = sprite_manager->load("largetux-star");
@@ -171,6 +171,7 @@ void loadshared()
 
 	tux_life = new Surface(datadir + "/images/shared/tux-life.png",
 	                       USE_ALPHA);
+	DEBUG_MSG("DONE");
 }
 
 

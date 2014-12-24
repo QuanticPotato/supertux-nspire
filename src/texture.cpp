@@ -265,7 +265,7 @@ SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 {
 	SDL_Surface *sdl_surface;
 
-	DEBUG_START("\tLoad %s", file.c_str())
+	DEBUG_START("    Load %s", file.c_str())
 	sdl_surface = nSDL_LoadImage(getSpriteData(file));
 	DEBUG_DONE()
 

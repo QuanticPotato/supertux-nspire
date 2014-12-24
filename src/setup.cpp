@@ -405,7 +405,7 @@ void st_general_setup(void)
 	/* Unicode needed for input handling: */
 	SDL_EnableUNICODE(1);
 
-	fprintf(stdout, "[Info] Load letter bitmaps .. \n");
+	DEBUG_MSG("Load letter bitmaps ..");
 	/* Load global images: */
 	black_text  = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16, 18);
 	gold_text    = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16, 18);
@@ -425,7 +425,7 @@ void st_general_setup(void)
 	back = new Surface(datadir + "/images/status/back.png", USE_ALPHA);
 	arrow_left = new Surface(datadir + "/images/icons/left.png", USE_ALPHA);
 	arrow_right = new Surface(datadir + "/images/icons/right.png", USE_ALPHA);
-	fprintf(stdout, "[Info] DONE.. \n");
+	DEBUG_MSG("DONE")
 }
 
 void st_general_free(void)

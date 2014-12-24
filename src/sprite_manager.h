@@ -23,6 +23,7 @@
 
 #include <map>
 #include "sprite.h"
+#include "text_files.h"
 
 class SpriteManager
 {
@@ -30,10 +31,9 @@ class SpriteManager
 		typedef std::map<std::string, Sprite *> Sprites;
 		Sprites sprites;
 	public:
-		SpriteManager(const std::string &filename);
+		SpriteManager();
 		~SpriteManager();
 
-		void    load_resfile(const std::string &filename);
 		/** loads a sprite.
 		 * WARNING: You must not delete the returned object.
 		 */
