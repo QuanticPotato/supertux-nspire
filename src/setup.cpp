@@ -480,7 +480,7 @@ void st_video_setup(void)
 
 void st_video_setup_sdl(void)
 {
-	fprintf(stdout, "[Info] SDL : SetVideoMode ..  ");
+	DEBUG_START("SDL : SetVideoMode", 0);
 	screen = SDL_SetVideoMode(320 , 240 , 16 , SDL_SWSURFACE);
 
 	if (screen == NULL) {
@@ -489,8 +489,8 @@ void st_video_setup_sdl(void)
 		        "The Simple DirectMedia error that occured was:\n"
 		        "%s\n\n", SDL_GetError());
 		exit(1);
-	} else 
-		fprintf(stdout, " OK. \n");
+	}
+	DEBUG_DONE()
 }
 
 /* --- SHUTDOWN --- */

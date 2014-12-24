@@ -1,5 +1,6 @@
 #include "setup.h"
 #include "resources.h"
+#include "title.h"
 
 int main(int argc, char *argv[]) 
 {
@@ -10,6 +11,8 @@ int main(int argc, char *argv[])
 	st_general_setup();
 	st_menu();
 	loadshared();
+
+	title();
 
 	return 0;
 }

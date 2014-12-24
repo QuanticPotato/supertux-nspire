@@ -1,3 +1,20 @@
+//  resource-scanner
+//  Copyright (C) 2014 CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
+//  
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
@@ -107,7 +124,7 @@ void scan_directory(path directory, ofstream &output_array, string output_raw, s
 				// The file type detection is based on the filename extension
 					string fileExtension = entry_path.extension().string().substr(1);
 					string label = escape_filepath(entry_path, fileExtension);
-					if(fileExtension == "png") { // Image formats supported
+					if(fileExtension == "png" || fileExtension == "jpg") { // Image formats supported
 						string img_cmd = resource_maker_exe + " img " + entry_path.string() + " " + label + " >> " + output_raw; 
 						cout << "Proccess " << entry_path.filename() << endl;
 						system(img_cmd.c_str());

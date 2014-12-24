@@ -269,6 +269,11 @@ SDL_Surface * sdl_surface_from_file(const std::string &file, int use_alpha)
 	sdl_surface = nSDL_LoadImage(getSpriteData(file));
 	DEBUG_DONE()
 
+	if(use_alpha != IGNORE_ALPHA) {
+		SDL_SetColorKey(sdl_surface, SDL_SRCCOLORKEY | SDL_RLEACCEL,
+			SDL_MapRGB(sdl_surface->format, 255, 0, 255));
+	}
+
 	return sdl_surface;
 }
 

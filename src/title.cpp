@@ -221,17 +221,18 @@ void title(void)
 
 	st_pause_ticks_init();
 
-	GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
+	//GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
 
 	clearscreen(0, 0, 0);
 	updatescreen();
 
 	/* Load images: */
-	bkg_title = new Surface(datadir + "/images/title/background.jpg", IGNORE_ALPHA);
+	bkg_title = new Surface(datadir + "/images/title/background.png", IGNORE_ALPHA);
 	logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
 	img_choose_subset = new Surface(datadir +
 	                                "/images/status/choose-level-subset.png", USE_ALPHA);
 
+	DEBUG_START("Load level files", 0)
 	/* Generating contrib maps by only using a string_list */
 	// Since there isn't any world dir or anything, add a hardcoded entry for Bonus Island
 	string_list_init(&worldmap_list);
@@ -244,6 +245,7 @@ void title(void)
 		string_list_add_item(&worldmap_list, files.item[i]);
 	}
 	string_list_free(&files);
+	DEBUG_DONE()
 
 	/* --- Main title loop: --- */
 	frame = 0;
@@ -279,10 +281,11 @@ void title(void)
 		}
 
 		/* Draw the background: */
-		draw_demo(&session, frame_ratio);
+		//draw_demo(&session, frame_ratio);
 
-		if (Menu::current() == main_menu)
+		if (Menu::current() == main_menu) {
 			logo->draw(160, 30);
+		}
 
 		white_small_text->draw(" SuperTux " VERSION "\n"
 		                       "Copyright (c) 2003 SuperTux Devel Team\n"
@@ -320,9 +323,9 @@ void title(void)
 						Menu::set_current(0);
 						break;
 				}
-			} else if (menu == options_menu)
+			} else if (menu == options_menu) {
 				process_options_menu();
-			else if (menu == load_game_menu) {
+			} else if (menu == load_game_menu) {
 				if (event.key.keysym.sym == SDLK_DELETE) {
 					int slot = menu->get_active_item_id();
 					char str[1024];
@@ -352,7 +355,7 @@ void title(void)
 				check_contrib_subset_menu();
 		}
 
-		mouse_cursor->draw();
+		//mouse_cursor->draw();
 
 		flipscreen();
 
