@@ -24,8 +24,12 @@ text_files.h
 False
 stwt
 TEXT
-text_files.h
-False
+levels_files.h
+True
+levels_index.cpp
+#include "levels_index.h" \
+\
+const char *getLevelData(const std::string &file) { 
 stl
 TEXT
 levels_files.h

@@ -86,7 +86,7 @@ Direction string_to_direction(const std::string &directory)
 
 TileManager::TileManager()
 {
-	std::string stwt_filename = datadir +  "/images/worldmap/antarctica.stwt";
+	std::string stwt_filename = datadir +  "/levels/antarctica.stwt";
 	lisp_object_t *root_obj = lisp_read_from_file(stwt_filename);
 
 	if (!root_obj)
@@ -473,17 +473,12 @@ void WorldMap::get_level_title(Levels::pointer level)
 	/** get level's title */
 	level->title = "<no title>";
 
-	FILE *fi;
-	lisp_object_t *root_obj = 0;
-	fi = fopen((datadir +  "/levels/" + level->name).c_str(), "r");
-	if (fi == NULL) {
-		perror((datadir +  "/levels/" + level->name).c_str());
-		return;
-	}
+	std::string filename = datadir +  "/levels/" + level->name;
+	DEBUG_START("    Load level : %s", filename.c_str())
+	lisp_object_t *root_obj = lisp_read_from_file(filename);
 
-	lisp_stream_t stream;
-	lisp_stream_init_file(&stream, fi);
-	root_obj = lisp_read(&stream);
+	if(!root_obj)
+		return;
 
 	if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
 		printf("World: Parse Error in file %s", level->name.c_str());
@@ -495,7 +490,7 @@ void WorldMap::get_level_title(Levels::pointer level)
 
 	lisp_free(root_obj);
 
-	fclose(fi);
+	DEBUG_DONE()
 }
 
 void WorldMap::on_escape_press()
