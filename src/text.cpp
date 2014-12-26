@@ -235,7 +235,7 @@ void display_text_file(const std::string &file, const std::string &surface,
 void display_text_file(const std::string &file, Surface *surface,
                        float scroll_speed)
 {
-	DEBUG_MSG(std::string("Display " + file + " ..").c_str())
+	DEBUG_START(std::string("Display " + file + " ..").c_str(), 0)
 	int done;
 	float scroll;
 	float speed;
@@ -359,6 +359,6 @@ void display_text_file(const std::string &file, Surface *surface,
 	SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 	Menu::set_current(main_menu);
 
-	DEBUG_MSG("DONE")
+	DEBUG_DONE()
 }
 

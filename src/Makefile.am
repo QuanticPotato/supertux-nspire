@@ -17,7 +17,6 @@ supertux_SOURCES = \
     lispreader.cpp \
     configfile.cpp \
     type.cpp \
-    data_manager.cpp \
     gameloop.cpp \
     high_scores.cpp \
     level.cpp \
@@ -37,7 +36,9 @@ supertux_SOURCES = \
     resources.cpp \
     mousecursor.cpp \
     sprite_manager.cpp \
-    intro.cpp
+    intro.cpp \
+    sprites_index.cpp \
+    levels_index.cpp
 
 all : all-am @EXE_NAME@
 

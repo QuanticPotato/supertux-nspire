@@ -11,6 +11,8 @@ Makefile.in
 *.tns
 *.elf
 tags
-data_manager.cpp
+sprites_index.cpp
 sprites.h
 text_files.h
+levels_files.h
+levels_index.cpp

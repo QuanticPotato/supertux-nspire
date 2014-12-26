@@ -98,7 +98,11 @@ enum DyingType {
 
 // Print a single message in the console
 #define DEBUG_MSG( msg ) { \
-	printf( "[INFO] " ); printf( msg ); printf("\n"); \
+	printf("[INFO]  %s \n", msg); \
+}
+
+#define DEBUG_MSG2( msg , arg ) { \
+	printf( "[INFO] " ); fprintf(stdout, msg , arg ); printf("\n"); \
 }
 
 /* Print a loading message like :  "[INFO] Loading image ...    OK"
@@ -106,16 +110,42 @@ enum DyingType {
  * 	DEBUG_START("Loading image")
  * 	DEBUG_DONE()
  */
-#define DEBUG_START(msg,args) {\
-	printf( "[INFO] " ); fprintf( stdout , msg , args ); printf(" ... "); fflush(stdout); \
+#define DEBUG_START(msg,arg) {\
+	printf( "[INFO] " ); fprintf( stdout , msg , arg ); printf(" ... "); fflush(stdout); \
 }
 #define DEBUG_DONE() {\
 	printf("   OK\n"); \
 }
+
+// Display warning messages
+#define DEBUG_WAR( msg ) {\
+	printf("[WARN] %s\n", msg); \
+}
+
+#define DEBUG_WAR2( msg, arg) {\
+	printf("[WARN] "); printf(msg, arg); printf("\n")
+
+// Dipslay error messages
+#define DEBUG_ERR( msg ) {\
+	fprintf(stderr, "[ERR] %s\n", msg);	\
+}
+#define DEBUG_ERR2(msg, arg) {\
+	fprintf(stderr, "[ERR] "); fprintf(stderr, msg, arg); fprintf(stderr, "\n"); \
+}
+#define DEBUG_ERR3(msg, arg1, arg2) {\
+	fprintf(stderr, "[ERR] "); fprintf(stderr, msg, arg1, arg2); fprintf(stderr, "\n"); \
+}
+
 #else
 #define DEBUG_MSG( msg ) {}
-#define DEBUG_START( msg, args) {}
+#define DEBUG_MSG2( msg, arg) {}
+#define DEBUG_START( msg, arg) {}
 #define DEBUG_DONE() {}
+#define DEBUG_WAR( msg ) {}
+#define DEBUG_WAR2( msg, arg) {}
+#define DEBUG_ERR( msg ) {}
+#define DEBUG_ERR2( msg, arg) {}
+#define DEBUG_ERR3( msg, arg1, arg2) {}
 #endif
 
 #endif

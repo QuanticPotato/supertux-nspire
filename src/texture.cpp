@@ -22,7 +22,7 @@
 #include "texture.h"
 #include "globals.h"
 
-#include "data_manager.h"
+#include "sprites_index.h"
 
 Surface::Surfaces Surface::surfaces;
 

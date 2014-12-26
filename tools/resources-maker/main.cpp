@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 							cout << "\\\"";
 						else if(line.at(j) == EOF)
 							; // Do not copy it !
+						else if(line.at(j) == 0x0d) ; // Windows crap ..
 						else
 							cout << line.at(j);
 					}	

@@ -16,10 +16,25 @@
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 EXE=scanner
+GXX=g++
+MV=mv
+RM=rm -rf 
+
+GCCFLAGS=-std=c++11 
+LINKFLAGS= -lboost_system -lboost_filesystem
+
+OBJS=main.o config_file.o
+
+.PHONY: clean
 
 all: $(EXE)
 
-$(EXE): main.cpp
-	g++ -std=c++11  main.cpp -lboost_system -lboost_filesystem -g
-	mv a.out $(EXE)
+$(EXE): $(OBJS)
+	$(GXX) $(OBJS) $(LINKFLAGS) 
+	$(MV) a.out $(EXE)
 
+%.o : %.cpp
+	$(GXX) $(GCCFLAGS) -c $<
+
+clean:
+	$(RM) $(OBJS)

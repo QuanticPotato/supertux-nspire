@@ -1,0 +1,44 @@
+png
+IMAGE
+sprites.h
+True
+sprites_index.cpp
+#include "sprites_index.h" \
+\
+unsigned short *getSpriteData(const std::string &file) { 
+jpg
+IMAGE
+sprites.h
+True
+sprites_index.cpp
+#include "sprites_index.h" \
+\
+unsigned short *getSpriteData(const std::string &file) { 
+txt
+TEXT
+text_files.h
+False
+strf
+TEXT
+text_files.h
+False
+stwt
+TEXT
+text_files.h
+False
+stl
+TEXT
+levels_files.h
+True
+levels_index.cpp
+#include "levels_index.h" \
+\
+const char *getLevelData(const std::string &file) { 
+stwm
+TEXT
+levels_files.h
+True
+levels_index.cpp
+#include "levels_index.h" \
+\
+const char *getLevelData(const std::string &file) { 

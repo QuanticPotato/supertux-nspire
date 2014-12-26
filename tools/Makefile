@@ -22,28 +22,29 @@ MOVE=mv
 MAKER_EXE=./resources-maker/resource_maker
 SCANNER_EXE=./resources-scanner/scanner
 
-RAW_FILENAME=sprites.h
-ARRAY_FILENAME=data_manager.cpp
-RAW_FILEPATH=../src/$(RAW_FILENAME)
-ARRAY_FILEPATH=../src/$(ARRAY_FILENAME)
-STRING_FILENAME=text_files.h
-STRING_FILEPATH=../src/$(STRING_FILENAME)
-
 DATA_FOLDER=../data/
+CONFIG_FILE=config
+
+# This files will be generated in the Makefile directory, and then deleted
+FIRST_FILENAME=levels_files.h
+FILENAMES=$(FIRST_FILENAME) levels_index.cpp sprites.h sprites_index.cpp text_files.h
+SRC_FOLDER=../src/
+# Append the source directory, in order to move the generated files
+#FILEPATH=$(foreach file, $(FILENAMES), $(SRC_FOLDER)/$(file))
+FILEPATH=$(SRC_FOLDER)/$(FIRST_FILENAME)
 
 .PHONY: clean
 
-all: $(RAW_FILEPATH) $(ARRAY_FILEPATH) $(STRING_FILEPATH)
+# We only deal with the first file to avoid repeating the rules for every files 
+# (Since they are all generated/moved at the same time)
 
-$(RAW_FILEPATH) : $(MAKER_EXE) $(SCANNER_EXE) FORCE
-	$(SCANNER_EXE) $(DATA_FOLDER) $(ARRAY_FILENAME) $(RAW_FILENAME) $(STRING_FILENAME) $(MAKER_EXE)
-	$(MOVE) $(RAW_FILENAME) $(RAW_FILEPATH)
+all: $(FILEPATH)
 
-$(ARRAY_FILEPATH) : $(RESOURCE_MAKER) $(RESOURCE_SCANNER) FORCE
-	$(MOVE) $(ARRAY_FILENAME) $(ARRAY_FILEPATH)
+$(FILEPATH) : $(FIRST_FILENAME)
+	$(MOVE) $(FILENAMES) $(SRC_FOLDER)
 
-$(STRING_FILEPATH) : $(RESOURCE_MAKER) $(RESOURCE_SCANNER) FORCE
-	$(MOVE) $(STRING_FILENAME) $(STRING_FILEPATH)
+$(FIRST_FILENAME): $(MAKER_EXE) $(SCANNER_EXE) FORCE
+	$(SCANNER_EXE) $(DATA_FOLDER) $(CONFIG_FILE) $(MAKER_EXE)
 
 $(MAKER_EXE) : 
 	$(MAKE) -C resources-maker

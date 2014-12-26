@@ -1,5 +1,6 @@
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com> //
+//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com> 
+//
 //  Adaptation for the TI nspire calculator by
 //      CHAUVIN Barnabe <barnabe.chauvin@gmail.com>
 //
@@ -495,7 +496,7 @@ void st_shutdown(void)
 
 void st_abort(const std::string &reason, const std::string &details)
 {
-	fprintf(stderr, "\nError: %s\n%s\n\n", reason.c_str(), details.c_str());
+	DEBUG_ERR3("%s : \n        %s\n", reason.c_str(), details.c_str())
 	st_shutdown();
 	abort();
 }
