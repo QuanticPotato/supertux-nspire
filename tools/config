@@ -46,3 +46,11 @@ levels_index.cpp
 #include "levels_index.h" \
 \
 const char *getLevelData(const std::string &file) { 
+stgt
+TEXT
+levels_files.h
+True
+levels_index.cpp
+#include "levels_index.h" \
+\
+const char *getLevelData(const std::string &file) { 
