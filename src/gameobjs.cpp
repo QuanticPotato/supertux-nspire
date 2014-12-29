@@ -50,16 +50,13 @@ BouncyDistro::action(double frame_ratio)
 	}
 }
 
-void
-BouncyDistro::draw()
+void BouncyDistro::draw()
 {
-	img_distro[0]->draw(base.x - scroll_x,
-	                    base.y);
+	img_distro[0]->draw(base.x - scroll_x, base.y - scroll_y);
 }
 
 
-void
-BrokenBrick::init(Tile *tile_, float x, float y, float xm, float ym)
+void BrokenBrick::init(Tile *tile_, float x, float y, float xm, float ym)
 {
 	tile    = tile_;
 	base.x  = x;
@@ -71,8 +68,7 @@ BrokenBrick::init(Tile *tile_, float x, float y, float xm, float ym)
 	timer.start(200);
 }
 
-void
-BrokenBrick::action(double frame_ratio)
+void BrokenBrick::action(double frame_ratio)
 {
 	base.x = base.x + base.xm * frame_ratio;
 	base.y = base.y + base.ym * frame_ratio;
@@ -87,8 +83,7 @@ BrokenBrick::action(double frame_ratio)
 	}
 }
 
-void
-BrokenBrick::draw()
+void BrokenBrick::draw()
 {
 	SDL_Rect src, dest;
 	src.x = rand() % 16;
@@ -97,7 +92,7 @@ BrokenBrick::draw()
 	src.h = 16;
 
 	dest.x = (int)(base.x - scroll_x);
-	dest.y = (int)base.y;
+	dest.y = (int)(base.y - scroll_y);
 	dest.w = 16;
 	dest.h = 16;
 
@@ -136,15 +131,14 @@ BouncyBrick::action(double frame_ratio)
 	}
 }
 
-void
-BouncyBrick::draw()
+void BouncyBrick::draw()
 {
 	SDL_Rect dest;
 
 	if (base.x >= scroll_x - 32 &&
 	        base.x <= scroll_x + screen->w) {
 		dest.x = (int)(base.x - scroll_x);
-		dest.y = (int)base.y;
+		dest.y = (int)(base.y - scroll_y);
 		dest.w = 32;
 		dest.h = 32;
 
@@ -163,14 +157,11 @@ BouncyBrick::draw()
 			                            dest.x, dest.y, dest.w, dest.h);
 		}
 
-		Tile::draw(base.x - scroll_x,
-		           base.y + offset,
-		           shape);
+		Tile::draw(base.x - scroll_x, base.y + offset, shape);
 	}
 }
 
-void
-FloatingScore::init(float x, float y, int s)
+void FloatingScore::init(float x, float y, int s)
 {
 	base.x = x;
 	base.y = y - 16;
@@ -179,8 +170,7 @@ FloatingScore::init(float x, float y, int s)
 	value = s;
 }
 
-void
-FloatingScore::action(double frame_ratio)
+void FloatingScore::action(double frame_ratio)
 {
 	base.y = base.y - 2 * frame_ratio;
 
@@ -194,8 +184,7 @@ FloatingScore::action(double frame_ratio)
 	}
 }
 
-void
-FloatingScore::draw()
+void FloatingScore::draw()
 {
 	char str[10];
 	sprintf(str, "%d", value);

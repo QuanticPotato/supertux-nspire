@@ -170,9 +170,9 @@ Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
 		if (ptile) {
 			if (ptile->images.size() > 1)
 				ptile->images[(((global_frame_counter * 25) / ptile->anim_speed) %
-				               (ptile->images.size()))]->draw(x, y, alpha);
+				               (ptile->images.size()))]->draw(x, y - scroll_y, alpha);
 			else if (ptile->images.size() == 1)
-				ptile->images[0]->draw(x, y, alpha);
+				ptile->images[0]->draw(x, y - scroll_y, alpha);
 			else {
 				//printf("Tile not dravable %u\n", c);
 			}

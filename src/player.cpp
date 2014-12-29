@@ -26,6 +26,7 @@
 #include "tile.h"
 #include "sprite.h"
 #include "screen.h"
+#include "world.h"
 
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
@@ -492,8 +493,9 @@ void
 Player::draw()
 {
 	if (!safe_timer.started() || (global_frame_counter % 2) == 0) {
+		int baseY = base.y - scroll_y;
 		if (dying == DYING_SQUISHED)
-			smalltux_gameover->draw(base.x - scroll_x, base.y);
+			smalltux_gameover->draw(base.x - scroll_x, baseY);
 		else {
 			PlayerSprite *sprite;
 
@@ -506,44 +508,44 @@ Player::draw()
 
 			if (duck && size != SMALL) {
 				if (dir == RIGHT)
-					sprite->duck_right->draw(base.x - scroll_x, base.y);
+					sprite->duck_right->draw(base.x - scroll_x, baseY);
 				else
-					sprite->duck_left->draw(base.x - scroll_x, base.y);
+					sprite->duck_left->draw(base.x - scroll_x, baseY);
 			} else if (skidding_timer.started()) {
 				if (dir == RIGHT)
-					sprite->skid_right->draw(base.x - scroll_x, base.y);
+					sprite->skid_right->draw(base.x - scroll_x, baseY);
 				else
-					sprite->skid_left->draw(base.x - scroll_x, base.y);
+					sprite->skid_left->draw(base.x - scroll_x, baseY);
 			} else if (kick_timer.started()) {
 				if (dir == RIGHT)
-					sprite->kick_right->draw(base.x - scroll_x, base.y);
+					sprite->kick_right->draw(base.x - scroll_x, baseY);
 				else
-					sprite->kick_left->draw(base.x - scroll_x, base.y);
+					sprite->kick_left->draw(base.x - scroll_x, baseY);
 			} else if (physic.get_velocity_y() != 0) {
 				if (dir == RIGHT)
-					sprite->jump_right->draw(base.x - scroll_x, base.y);
+					sprite->jump_right->draw(base.x - scroll_x, baseY);
 				else
-					sprite->jump_left->draw(base.x - scroll_x, base.y);
+					sprite->jump_left->draw(base.x - scroll_x, baseY);
 			} else {
 				if (fabsf(physic.get_velocity_x()) < 1.0f) { // standing
 					if (dir == RIGHT)
-						sprite->stand_right->draw(base.x - scroll_x, base.y);
+						sprite->stand_right->draw(base.x - scroll_x, baseY);
 					else
-						sprite->stand_left->draw(base.x - scroll_x, base.y);
+						sprite->stand_left->draw(base.x - scroll_x, baseY);
 				} else { // moving
 					if (dir == RIGHT)
-						sprite->walk_right->draw(base.x - scroll_x, base.y);
+						sprite->walk_right->draw(base.x - scroll_x, baseY);
 					else
-						sprite->walk_left->draw(base.x - scroll_x, base.y);
+						sprite->walk_left->draw(base.x - scroll_x, baseY);
 				}
 			}
 
 			// Draw arm overlay graphics when Tux is holding something
 			if (holding_something && physic.get_velocity_y() == 0 && !duck) {
 				if (dir == RIGHT)
-					sprite->grab_right->draw(base.x - scroll_x, base.y);
+					sprite->grab_right->draw(base.x - scroll_x, baseY);
 				else
-					sprite->grab_left->draw(base.x - scroll_x, base.y);
+					sprite->grab_left->draw(base.x - scroll_x, baseY);
 			}
 
 			// Draw blinking star overlay
@@ -551,15 +553,15 @@ Player::draw()
 			        (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING
 			         || global_frame_counter % 3)) {
 				if (size == SMALL || duck)
-					smalltux_star->draw(base.x - scroll_x, base.y);
+					smalltux_star->draw(base.x - scroll_x, baseY);
 				else
-					largetux_star->draw(base.x - scroll_x, base.y);
+					largetux_star->draw(base.x - scroll_x, baseY);
 			}
 		}
 	}
 
 	if (debug_mode)
-		fillrect(base.x - scroll_x, base.y,
+		fillrect(base.x - scroll_x, base.y - scroll_y,
 		         base.width, base.height, 75, 75, 75, 150);
 }
 
@@ -643,7 +645,7 @@ Player::is_dying()
 
 bool Player::is_dead()
 {
-	if (base.y > screen->h
+	if (base.y > WORLD_HEIGHT
 	        || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL) // last condition can happen in auto-scrolling
 		return true;
 	else
@@ -670,8 +672,9 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
 	}
 
 	/* Keep in-bounds, vertically: */
-	if (base.y > screen->h)
+	if (base.y > WORLD_HEIGHT) {
 		kill(KILL);
+	}
 
 	if (base.x < scroll_x && (!back_scrolling
 	                          || hor_autoscroll)) // can happen if back scrolling is disabled

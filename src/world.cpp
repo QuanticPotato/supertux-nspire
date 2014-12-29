@@ -132,6 +132,7 @@ World::set_defaults()
 {
 	// Set defaults:
 	scroll_x = 0;
+	scroll_y = 0;
 
 	player_status.score_multiplier = 1;
 
@@ -168,9 +169,9 @@ World::draw()
 	if (level->img_bkgd) {
 		int s = (int)((float)scroll_x * ((float)level->bkgd_speed / 100.0f)) %
 		        screen->w;
-		level->img_bkgd->draw_part(s, 0, 0, 0, level->img_bkgd->w - s,
-		                           level->img_bkgd->h);
-		level->img_bkgd->draw_part(0, 0, screen->w - s , 0, s, level->img_bkgd->h);
+		// We draw the background twice (Because it doesn't start at x=0)
+		level->img_bkgd->draw_part(s, scroll_y, 0, 0, level->img_bkgd->w - s, SCREEN_H); // The right part
+		level->img_bkgd->draw_part(0, scroll_y, screen->w - s , 0, s, SCREEN_H); // the left part
 	} else
 		drawgradient(level->bkgd_top, level->bkgd_bottom);
 
@@ -284,7 +285,7 @@ World::action(double frame_ratio)
 
 // the space that it takes for the screen to start scrolling, regarding
 // screen bounds (in pixels)
-#define X_SPACE (400-16)
+#define X_SPACE (100-16)
 // the time it takes to move the camera (in ms)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
@@ -292,68 +293,36 @@ World::action(double frame_ratio)
 void World::scrolling(double frame_ratio)
 {
 	if (level->hor_autoscroll_speed) {
+		std::cout << "Autoscroll +" << level->hor_autoscroll_speed * frame_ratio << std::endl;
 		scroll_x += level->hor_autoscroll_speed * frame_ratio;
 		return;
 	}
 
 	int tux_pos_x = (int)(tux.base.x + (tux.base.width / 2));
-
-	if (level->back_scrolling || debug_mode) {
-		if (tux.old_dir != tux.dir && level->back_scrolling)
-			scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
-
-		if (scrolling_timer.check()) {
-			float final_scroll_x;
-			if (tux.physic.get_velocity_x() > 0)
-				final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-			else if (tux.physic.get_velocity_x() < 0)
-				final_scroll_x = tux_pos_x - X_SPACE;
-			else {
-				if (tux.dir == RIGHT)
-					final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-				else if (tux.dir == LEFT && level->back_scrolling)
-					final_scroll_x = tux_pos_x - X_SPACE;
-			}
-
-			scroll_x += (final_scroll_x - scroll_x)
-			            / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100))
-			            + (tux.physic.get_velocity_x() * frame_ratio + tux.physic.get_acceleration_x() *
-			               frame_ratio * frame_ratio);
-			// std::cerr << tux_pos_x << " " << final_scroll_x << " " << scroll_x << std::endl;
-
-		} else {
-			if (tux.physic.get_velocity_x() > 0
-			        && scroll_x < tux_pos_x - (screen->w - X_SPACE))
-				scroll_x = tux_pos_x - (screen->w - X_SPACE);
-			else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE
-			         && level->back_scrolling)
-				scroll_x = tux_pos_x - X_SPACE;
-			else {
-				if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
-					scroll_x = tux_pos_x - (screen->w - X_SPACE);
-				else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE
-				         && level->back_scrolling)
-					scroll_x = tux_pos_x - X_SPACE;
-			}
-		}
-	}
-
-	else { /*no debug*/
+	int tux_pos_y = (int)(tux.base.y + (tux.base.height / 2));
+	/* X scrolling */
 		if (tux.physic.get_velocity_x() > 0
-		        && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+			&& scroll_x < tux_pos_x - (screen->w - X_SPACE))
 			scroll_x = tux_pos_x - (screen->w - X_SPACE);
 		else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE
-		         && level->back_scrolling)
+			 && level->back_scrolling)
 			scroll_x = tux_pos_x - X_SPACE;
 		else {
 			if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
 				scroll_x = tux_pos_x - (screen->w - X_SPACE);
 			else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE
-			         && level->back_scrolling)
+				 && level->back_scrolling)
 				scroll_x = tux_pos_x - X_SPACE;
 		}
-
-	}
+	/* Y scrolling */
+		if(tux_pos_y > 0 
+				&& tux_pos_y > (SCREEN_H / 2)) {
+			if(tux_pos_y < WORLD_HEIGHT - (SCREEN_H / 2))
+				scroll_y = tux_pos_y - (SCREEN_H / 2);
+			else // Bottom of the world
+				scroll_y = WORLD_HEIGHT - SCREEN_H;
+		}
+		else scroll_y = 0;	
 
 	// this code prevent the screen to scroll before the start or after the level's end
 	if (scroll_x < 0)

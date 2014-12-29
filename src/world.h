@@ -32,6 +32,9 @@
 #include "particlesystem.h"
 #include "gameobjs.h"
 
+#define WORLD_HEIGHT 480
+#define SCREEN_H 240
+
 class Level;
 
 /** The World class holds a level and all the game objects (badguys,

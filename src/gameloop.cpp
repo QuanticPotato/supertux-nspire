@@ -407,8 +407,7 @@ GameSession::check_end_conditions()
 	}
 }
 
-void
-GameSession::action(double frame_ratio)
+void GameSession::action(double frame_ratio)
 {
 	if (exit_status == ES_NONE) {
 		// Update Tux and the World
@@ -416,8 +415,7 @@ GameSession::action(double frame_ratio)
 	}
 }
 
-void
-GameSession::draw()
+void GameSession::draw()
 {
 	world->draw();
 	drawstatus();
@@ -441,8 +439,7 @@ GameSession::draw()
 	updatescreen();
 }
 
-void
-GameSession::process_menu()
+void GameSession::process_menu()
 {
 	Menu *menu = Menu::current();
 	if (menu) {
@@ -465,8 +462,7 @@ GameSession::process_menu()
 	}
 }
 
-GameSession::ExitStatus
-GameSession::run()
+GameSession::ExitStatus GameSession::run()
 {
 	Menu::set_current(0);
 	current_ = this;
@@ -526,7 +522,7 @@ GameSession::run()
 		/* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
 		   the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
 		if (last_update_time >= update_time - 12) {
-			SDL_Delay(10);
+			SDL_Delay(1000);
 			update_time = st_get_ticks();
 		}
 

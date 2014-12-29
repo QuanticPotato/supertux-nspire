@@ -72,6 +72,7 @@ PlayerStatus::BonusType string_to_bonus(const std::string& str)
 }
 
 float scroll_x;
+float scroll_y;
 unsigned int global_frame_counter;
 
 // EOF //

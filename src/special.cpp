@@ -111,23 +111,19 @@ Bullet::action(double frame_ratio)
 
 }
 
-void
-Bullet::draw()
+void Bullet::draw()
 {
-	if (base.x >= scroll_x - base.width &&
-	        base.x <= scroll_x + screen->w)
-		img_bullet->draw(base.x - scroll_x, base.y);
+	if (base.x >= scroll_x - base.width && base.x <= scroll_x + screen->w)
+		img_bullet->draw(base.x - scroll_x, base.y - scroll_y);
 }
 
-void
-Bullet::collision(int c_object)
+void Bullet::collision(int c_object)
 {
 	if (c_object == CO_BADGUY)
 		remove_me();
 }
 
-void
-Upgrade::init(float x_, float y_, Direction dir_, UpgradeKind kind_)
+void Upgrade::init(float x_, float y_, Direction dir_, UpgradeKind kind_)
 {
 	kind = kind_;
 	dir = dir_;
@@ -231,15 +227,14 @@ Upgrade::action(double frame_ratio)
 	}
 }
 
-void
-Upgrade::draw()
+void Upgrade::draw()
 {
 	SDL_Rect dest;
 	if (base.height < 32) {
 		/* Rising up... */
 
 		dest.x = (int)(base.x - scroll_x);
-		dest.y = (int)(base.y + 32 - base.height);
+		dest.y = (int)(base.y + 32 - base.height - scroll_y);
 		dest.w = 32;
 		dest.h = (int)base.height;
 
@@ -266,8 +261,7 @@ Upgrade::draw()
 	}
 }
 
-void
-Upgrade::bump(Player *)
+void Upgrade::bump(Player *)
 {
 	// these can't be bumped
 	if (kind != UPGRADE_GROWUP)
@@ -279,8 +273,7 @@ Upgrade::bump(Player *)
 	physic.enable_gravity(true);
 }
 
-void
-Upgrade::collision(void *p_c_object, int c_object, CollisionType type)
+void Upgrade::collision(void *p_c_object, int c_object, CollisionType type)
 {
 	Player *pplayer = NULL;
 

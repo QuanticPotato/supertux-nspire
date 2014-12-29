@@ -451,8 +451,12 @@ SurfaceSDL::draw_bg(Uint8 alpha, bool update)
 	return ret;
 }
 
-int
-SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h,
+/* Draw only a part of the surface
+ *  sx, sy :	the offset on the screen
+ *  x, y :	The offset in the surface
+ *  w, h : 	The size of the surface (from the surface offset) to draw
+ */
+int SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h,
                       Uint8 alpha, bool update)
 {
 	SDL_Rect src, dest;

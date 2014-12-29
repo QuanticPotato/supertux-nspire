@@ -776,6 +776,7 @@ void WorldMap::draw(const Point &offset)
 
 void WorldMap::draw_status()
 {
+	// TODO Move everything on the small screen
 	char str[80];
 	sprintf(str, "%d", player_status.score);
 	white_text->draw("SCORE", 0, 0);

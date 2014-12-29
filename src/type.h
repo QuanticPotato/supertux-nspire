@@ -65,10 +65,12 @@ class GameObject
 				if (y != -1)
 					base.y = y;
 			}
-			float tmp = scroll_x;
+			float tmp1 = scroll_x, tmp2 = scroll_y;
 			scroll_x = 0;
+			scroll_y = 0;
 			draw();
-			scroll_x = tmp;
+			scroll_x = tmp1;
+			scroll_y = tmp2;
 			base = btmp;
 		};
 		void move_to(float x, float y) {

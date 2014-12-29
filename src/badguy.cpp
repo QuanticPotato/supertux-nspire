@@ -686,10 +686,10 @@ BadGuy::draw()
 		return;
 
 	Sprite *sprite = (dir == LEFT) ? sprite_left : sprite_right;
-	sprite->draw(base.x - scroll_x, base.y);
+	sprite->draw(base.x - scroll_x, base.y - scroll_y);
 
 	if (debug_mode)
-		fillrect(base.x - scroll_x, base.y, base.width, base.height, 75, 0, 75, 150);
+		fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75, 0, 75, 150);
 }
 
 void
