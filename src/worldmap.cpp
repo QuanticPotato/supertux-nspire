@@ -984,7 +984,7 @@ void WorldMap::loadgame(const std::string &filename)
 
 		lisp_free(savegame);
 	DEBUG_DONE();
-}}}
+}
 
 void WorldMap::loadmap(const std::string &filename)
 {

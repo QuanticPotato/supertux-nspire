@@ -47,7 +47,7 @@ all : all-am @EXE_NAME@
 	chmod +x $@
 
 @ZEHN_NAME@ : @ELF_NAME@
-	@NSPIRE_GENZEHN@ --input $^ --output $@ @NSPIRE_ZEHN_FLAGS@
+	@NSPIRE_GENZEHN@ --compress --input $^ --output $@ @NSPIRE_ZEHN_FLAGS@
 	chmod +x $@
 
 clean: clean-am
